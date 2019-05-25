@@ -97,4 +97,15 @@ public class AirConditionerParams {
         }
         return -1;
     }
+    public double getFeeRateByFunSpeed(String funSpeed) {
+        switch (defaultFunSpeed) {
+            case "LOW":
+                return feeRateLow;
+            case "MIDDLE":
+                return feeRateMiddle;
+            case "HIGH":
+                return feeRateHigh;
+        }
+        return -1;
+    }
 }

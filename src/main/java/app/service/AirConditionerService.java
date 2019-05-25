@@ -1,6 +1,5 @@
 package app.service;
 
-
 import app.dto.AirConditionerParams;
 import app.dto.Room;
 import app.dto.Service;
@@ -12,12 +11,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 
 @Component
 public class AirConditionerService {
-
-    private Semaphore waitingListSemaphore;
 
     private List<Service> waitingList;
     private List<Service> runningList;
@@ -32,8 +28,10 @@ public class AirConditionerService {
         runningList = Collections.synchronizedList(new ArrayList<Service>());
         roomList = Collections.synchronizedList(new ArrayList<Room>());
         billList = Collections.synchronizedList(new ArrayList<bill>());
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < 4; i++) {
             roomList.add(new Room(acParams.getDefaultRoomTemp()));
+            billList.add(new bill());   //To-Do 初始化账单
+        }
     }
 
     private Service findRoomService(int roomId) {
@@ -69,16 +67,26 @@ public class AirConditionerService {
     }
     //调节温度
     public void ChangeTargetTemp(int roomId, int tarTemp) {
-        //
+        //Concern! 使用startTime计时计费不正确（服务过程中被调度）
+        //增加bill中的更改温度计数器
+
         Service s = findRoomService(roomId);
+        //service持久化 当前时间：LocalDateTime.now()
+
         s.setTarTemp(tarTemp);
+        s.setCurrentFee(0);
+        s.setStartTime(LocalDateTime.now());
     }
 
     //调节风速
     public void ChangeFanSpeed(int roomId, String funSpeed) {
-        //
+        //Concern! 使用startTime计时计费不正确（服务过程中被调度）
+        //增加bill中的更改风速计数器
         Service s = findRoomService(roomId);
+        //service持久化 当前时间：LocalDateTime.now()
         s.setFunSpeed(funSpeed);
+        s.setFeeRate(acParams.getFeeRateByFunSpeed(funSpeed));
+        s.setStartTime(LocalDateTime.now());
     }
 
     //关机
@@ -91,6 +99,7 @@ public class AirConditionerService {
     public double requestFee(int roomId) {
         return billList.get(roomId).getTotalfee();
     }
+
     //2. 空调管理员
     //检查房间
     public Room getRoomState(int roomId) {
