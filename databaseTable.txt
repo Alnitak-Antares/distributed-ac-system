@@ -3,7 +3,7 @@
 
 用户表
 User {
-	int userid;                 //用户id
+	int userId;                 //用户id
 	String username;            //用户名
 	String password;            //密码
 }
@@ -22,25 +22,25 @@ Room {
 服务表
 
 Bill {
-    int billid;                 //账单的id
-    String startime;            //服务开始时间
-    String stoptime;            //服务结束时间
+    int billId;                 //账单的id
+    String startTime;            //服务开始时间
+    String stopTime;            //服务结束时间
     double Fee;                 //服务费用
-    int Roomid;                 //房间id
-    int userid;                 //使用的房客id
+    int RoomId;                 //房间id
+    int userId;                 //使用的房客id
     int serverTime;             //服务时长
 }
 
 //每次进入调度时的时间
 serviceDei {
-    int billid;                 //账单id，主键
-    int serviceid;              //服务id，主键
-    String servstartime;        //服务开始时间
-    String servstoptime;        //服务结束时间
+    int billId;                 //账单id，主键
+    int serviceId;              //服务id，主键
+    String serviceStartTime;        //服务开始时间
+    String serviceStopTime;        //服务结束时间
     int tarTemp;                //目标温度
     int beginTemp;              //开始时的温度
     int funSpeed;               //选择风速
-    double servfee;             //服务费用
+    double serviceFee;             //服务费用
 }
 
 
@@ -74,5 +74,5 @@ Service {
     int starTemp;
     int tarTemp;
     int FunSpeed;
-    String startTime;      //
+    String startTime;       //
 }
