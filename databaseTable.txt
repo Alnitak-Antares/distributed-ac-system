@@ -1,0 +1,58 @@
+
+
+
+用户表
+User {
+	int userid;                 //用户id
+	String username;            //用户名
+	String password;            //密码
+}
+
+房间统计表
+Room {
+    int TurnOnCounter;          //开关次数
+    int RunningTime;            //运行时间，min
+    int totServerTime;          //被调度次数
+    double billCounter;         //总费用
+    int ChangeTermCounter;      //改变温度次数
+    int ChangeFunCounter;       //改变风速次数
+}
+
+
+服务表
+
+Bill {
+    int billid;                 //账单的id
+    String startime;            //服务开始时间
+    String stoptime;            //服务结束时间
+    double Fee;                 //服务费用
+    int Roomid;                 //房间id
+    int userid;                 //使用的房客id
+    int serverTime;             //服务时长
+}
+
+//每次进入调度时的时间
+serviceDei {
+    int billid;                 //账单id，主键
+    int serviceid;              //服务id，主键
+    String servstartime;        //服务开始时间
+    String servstoptime;        //服务结束时间
+    int tarTemp;                //目标温度
+    int beginTemp;              //开始时的温度
+    int funSpeed;               //选择风速
+    double servfee;             //服务费用
+}
+
+
+对象：
+房间状态表
+RoomState {
+    int nowTemp;            //当前温度
+    int TarTemp;            //目标温度
+    int starTemp;           //开始温度
+    int funSpeed;           //风速
+    String startime;        //开始时间
+    String stoptime;        //结束时间
+    int totaltime;          //服务总时长
+    Boolean Power;           //服务状态（开或者关）
+}
