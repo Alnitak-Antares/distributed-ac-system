@@ -23,6 +23,7 @@ public class ManagerController {
     public List<roomStatis> QueryReport(HttpServletRequest request) {
         List<Integer> roomlist=(List<Integer>)JSON.parse(request.getParameter("roomlist"));
         List<roomStatis> roomStatisList=new List<roomStatis>();
+        int typeReport=request.getPara
         return roomStatisList;
     }
 
