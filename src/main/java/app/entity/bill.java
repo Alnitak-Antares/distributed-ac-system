@@ -320,4 +320,20 @@ public class bill {
     public void setChangefuncounter(Integer changefuncounter) {
         this.changefuncounter = changefuncounter;
     }
+
+    @Override
+    public String toString() {
+        return "bill{" +
+                "billid=" + billid +
+                ", starttime='" + starttime + '\'' +
+                ", stoptime='" + stoptime + '\'' +
+                ", roomid=" + roomid +
+                ", userid=" + userid +
+                ", totalfee=" + totalfee +
+                ", runningtime=" + runningtime +
+                ", totalservicecount=" + totalservicecount +
+                ", changetermcounter=" + changetermcounter +
+                ", changefuncounter=" + changefuncounter +
+                '}';
+    }
 }
