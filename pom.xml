@@ -93,6 +93,11 @@
             <version>1.3.2</version>
             <type>jar</type>
         </dependency>
+        <!-- bean 查看 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
 
     <properties>
