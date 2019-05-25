@@ -4,25 +4,34 @@ import app.entity.bill;
 
 public class RoomStatis {
     private Integer roomid;
-    private Float totalfee;
+    private double totalfee;
     private Integer runningtime;
-    private Integer totalservicecount;
-    private Integer changetermcounter;
+    private Integer scheduleCounter;
+    private Integer detailedRecordCounter;
+    private Integer powerOnCounter;
+    private Integer changetempcounter;
     private Integer changefuncounter;
 
-    public void addBill(bill nowbill) {
-        this.changefuncounter+=nowbill.getChangefuncounter();
-        this.changetermcounter+=nowbill.getChangetermcounter();
-        this.totalfee+=nowbill.getTotalfee();
-        this.runningtime+=nowbill.getRunningtime();
-        this.totalservicecount+=nowbill.getTotalservicecount();
+    public void addBill(bill nowBill) {
+        this.changefuncounter+=nowBill.getChangefuncounter();
+        this.totalfee+=nowBill.getTotalfee();
+        this.runningtime+=nowBill.getRunningtime();
+        this.scheduleCounter+=nowBill.getSchedulecounter();
+        this.detailedRecordCounter+=nowBill.getDetailedrecordcounter();
+        this.powerOnCounter+=nowBill.getPoweroncounter();
+        this.changetempcounter+=nowBill.getChangetempcounter();
+        this.changefuncounter+=nowBill.getChangefuncounter();
     }
 
     public RoomStatis(int roomid){
         this.roomid=roomid;
-        this.totalfee=Float.valueOf("0.0");
+        this.changefuncounter=0;
+        this.totalfee=0.0;
         this.runningtime=0;
-        this.totalservicecount=0;
-        this.changetermcounter=0;
+        this.scheduleCounter=0;
+        this.detailedRecordCounter=0;
+        this.powerOnCounter=0;
+        this.changetempcounter=0;
+        this.changefuncounter=0;
     }
 }
