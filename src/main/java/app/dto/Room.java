@@ -58,5 +58,4 @@ public class Room {
         isPowerOn = powerOn;
     }
 
-
 }
