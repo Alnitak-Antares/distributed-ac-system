@@ -56,3 +56,23 @@ RoomState {
     int totaltime;          //服务总时长
     Boolean Power;           //服务状态（开或者关）
 }
+
+
+
+调度系统
+DispatchCore {
+    private ArrayList<WaitServ> waitlist;
+    private ArrayList<Service> service;
+
+    public acceptRequset(
+    public Service find
+
+}
+
+WaitServ{
+    int roomid;
+    int serviceid;
+    int 
+
+
+}
