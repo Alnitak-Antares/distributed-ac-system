@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class LoginController {
     @GetMapping("/login")
     public String login(@RequestParam(value="username") String username, @RequestParam(value="password") String password) {
-        if (username == "admin")
-            return "/welcome.html";
-        else
-            return "/pub.html";
+        return username + ".html";
     }
 }
