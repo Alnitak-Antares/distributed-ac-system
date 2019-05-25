@@ -19,7 +19,7 @@ create table Bill(
   totalFee float(10,2),
   runningTime int,
   totalServiceCount int,
-  ChangeTermCounter int,
+  ChangeTempCounter int,
   ChangeFunCounter int
 )default charset=utf8;
 
