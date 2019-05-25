@@ -5,6 +5,7 @@ import app.dto.Room;
 import app.dto.Service;
 import app.entity.bill;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Component
+@org.springframework.stereotype.Service
 public class AirConditionerService {
 
     private List<Service> waitingList;
@@ -23,17 +24,20 @@ public class AirConditionerService {
     @Autowired
     private AirConditionerParams acParams;
 
-    public AirConditionerService() {
+    public void init() {
         waitingList = Collections.synchronizedList(new ArrayList<Service>());
         runningList = Collections.synchronizedList(new ArrayList<Service>());
         roomList = Collections.synchronizedList(new ArrayList<Room>());
         billList = Collections.synchronizedList(new ArrayList<bill>());
         for(int i = 0; i < 4; i++) {
-            roomList.add(new Room(acParams.getDefaultRoomTemp()));
+            Room room = new Room(acParams.getDefaultRoomTemp());
             billList.add(new bill());   //To-Do 初始化账单
         }
     }
 
+    public String getFunSpeed() {
+        return acParams.getDefaultFunSpeed();
+    }
     private Service findRoomService(int roomId) {
         for (Service s: runningList) {
             if(s.getRoomId() == roomId)
@@ -81,8 +85,8 @@ public class AirConditionerService {
     //调节风速
     public void ChangeFanSpeed(int roomId, String funSpeed) {
         //Concern! 使用startTime计时计费不正确（服务过程中被调度）
-        //增加bill中的更改风速计数器
         Service s = findRoomService(roomId);
+        //增加bill中的更改风速计数器
         //service持久化 当前时间：LocalDateTime.now()
         s.setFunSpeed(funSpeed);
         s.setFeeRate(acParams.getFeeRateByFunSpeed(funSpeed));

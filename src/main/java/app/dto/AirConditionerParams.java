@@ -14,6 +14,7 @@ public class AirConditionerParams {
     private String defaultFunSpeed; //LOW, MIDDLE, HIGH
     private String systemState; //OFF, READY, ON
 
+
     public int getDefaultRoomTemp() {
         return defaultRoomTemp;
     }

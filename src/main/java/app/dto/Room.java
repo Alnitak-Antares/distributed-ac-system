@@ -4,8 +4,8 @@ public class Room {
     private double nowTemp;            //当前室温
     private int tarTemp;            //最后一次的目标温度
     private String funSpeed;           //最后一次的目标风速
-    private Boolean isPowerOn;      //是否开机
-    private Boolean isInService;    //是否服务
+    private boolean isPowerOn;      //是否开机
+    private boolean isInService;    //是否服务
 
     public Room(double nowTemp) {
         this.nowTemp = nowTemp;
