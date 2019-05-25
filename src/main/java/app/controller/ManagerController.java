@@ -1,7 +1,7 @@
 package app.controller;
 
 
-import app.entity.roomStatis;
+import app.dto.RoomStatis;
 import app.service.ManagerService;
 import com.alibaba.fastjson.JSON;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +20,16 @@ public class ManagerController {
 
 
     @GetMapping("/queryreport")
-    public List<roomStatis> QueryReport(HttpServletRequest request) {
-        List<Integer> roomlist=(List<Integer>)JSON.parse(request.getParameter("roomlist"));
-        List<roomStatis> roomStatisList=new List<roomStatis>();
-        int typeReport=request.getPara
+    public ArrayList<RoomStatis> QueryReport(HttpServletRequest request) {
+        List<Integer> roomlist=(List<Integer>)JSON.parse(request.getParameter("list_Roomid"));
+        ArrayList<RoomStatis> roomStatisList=new ArrayList<RoomStatis>();
+        Integer typeReport=Integer.valueOf(request.getParameter("type_Report"));
+        String startTime=;
+        String stopTime=;
+        for(int roomid:roomlist) {
+            roomStatisList.add(managerserivce.queryRoom(roomid,startTime,stopTime));
+        }
+
         return roomStatisList;
     }
 
