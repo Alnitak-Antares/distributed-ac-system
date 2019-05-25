@@ -1,4 +1,4 @@
-package hello;
+package app.dto;
 
 public class Greeting {
 
