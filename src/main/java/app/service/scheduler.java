@@ -49,8 +49,8 @@ public class scheduler {
         //删除服务
     }
 
-    public int requestFee(int roomId) {
-
+    public double requestFee(int roomId) {
+        return 0.0;
     }
     //2. 空调管理员
     //检查房间
