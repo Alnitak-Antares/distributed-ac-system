@@ -4,30 +4,37 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AirConditionerParams {
+    private int defaultRoomTemp;
     private int tempHighLimit;
     private int tempLowLimit;
     private int defaultTargetTemp;
     private double feeRateHigh;
     private double feeRateMiddle;
     private double feeRateLow;
-    public enum FunSpeed {LOW, MIDDLE, HIGH}
-    public enum SystemState {OFF, READY, ON}
-    private FunSpeed defaultFunSpeed;
-    private SystemState systemState;
+    private String defaultFunSpeed; //LOW, MIDDLE, HIGH
+    private String systemState; //OFF, READY, ON
 
-    public FunSpeed getDefaultFunSpeed() {
+    public int getDefaultRoomTemp() {
+        return defaultRoomTemp;
+    }
+
+    public void setDefaultRoomTemp(int defaultRoomTemp) {
+        this.defaultRoomTemp = defaultRoomTemp;
+    }
+
+    public String getDefaultFunSpeed() {
         return defaultFunSpeed;
     }
 
-    public void setDefaultFunSpeed(FunSpeed defaultFunSpeed) {
+    public void setDefaultFunSpeed(String defaultFunSpeed) {
         this.defaultFunSpeed = defaultFunSpeed;
     }
 
-    public SystemState getSystemState() {
+    public String getSystemState() {
         return systemState;
     }
 
-    public void setSystemState(SystemState systemState) {
+    public void setSystemState(String systemState) {
         this.systemState = systemState;
     }
 
@@ -77,5 +84,17 @@ public class AirConditionerParams {
 
     public void setFeeRateLow(double feeRateLow) {
         this.feeRateLow = feeRateLow;
+    }
+
+    public double getDefaultFeeRate() {
+        switch (defaultFunSpeed) {
+            case "LOW":
+                return feeRateLow;
+            case "MIDDLE":
+                return feeRateMiddle;
+            case "HIGH":
+                return feeRateHigh;
+        }
+        return -1;
     }
 }

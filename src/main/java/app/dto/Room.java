@@ -1,11 +1,22 @@
 package app.dto;
 
-public class RoomState {
-    private int nowTemp;            //当前室温
+public class Room {
+    private double nowTemp;            //当前室温
     private int tarTemp;            //最后一次的目标温度
-    private int funSpeed;           //最后一次的目标风速
+    private String funSpeed;           //最后一次的目标风速
     private Boolean isPowerOn;      //是否开机
     private Boolean isInService;    //是否服务
+
+    public Room(double nowTemp) {
+        this.nowTemp = nowTemp;
+        this.isPowerOn = false;
+        this.isInService = false;
+    }
+
+    public void clear() {
+        this.isPowerOn = false;
+        this.isInService = false;
+    }
 
     public int getTarTemp() {
         return tarTemp;
@@ -15,11 +26,11 @@ public class RoomState {
         this.tarTemp = tarTemp;
     }
 
-    public int getFunSpeed() {
+    public String getFunSpeed() {
         return funSpeed;
     }
 
-    public void setFunSpeed(int funSpeed) {
+    public void setFunSpeed(String funSpeed) {
         this.funSpeed = funSpeed;
     }
 
@@ -31,7 +42,7 @@ public class RoomState {
         isInService = inService;
     }
 
-    public int getNowTemp() {
+    public double getNowTemp() {
         return nowTemp;
     }
 
