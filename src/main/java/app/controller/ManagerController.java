@@ -4,8 +4,8 @@ package app.controller;
 import app.dto.RoomStatis;
 import app.service.ManagerService;
 import com.alibaba.fastjson.JSON;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,18 +16,43 @@ import java.util.List;
 @RestController
 @RequestMapping("/manager")
 public class ManagerController {
-    private ManagerService managerserivce;
+    @Autowired
+    private ManagerService managerSerivce;
 
 
     @GetMapping("/queryreport")
     public ArrayList<RoomStatis> QueryReport(HttpServletRequest request) {
+        /* "list_home":["1","2","4"],
+           "type_Report": 0/1/2,
+           "year":xxxx,
+           "month":mm, 01/02/.../12
+           "day":dd,    01/02/../30
+         */
         List<Integer> roomlist=(List<Integer>)JSON.parse(request.getParameter("list_Roomid"));
         ArrayList<RoomStatis> roomStatisList=new ArrayList<RoomStatis>();
         Integer typeReport=Integer.valueOf(request.getParameter("type_Report"));
-        String startTime=;
-        String stopTime=;
+        String year=request.getParameter("year");
+        String month=request.getParameter("month");
+        String day=request.getParameter("day");
+        String stopTime=year+"-"+month+"-"+day+" "+"23:59:59";
+        String startTime="0000-00-00";
+        switch (typeReport) {
+            case 1:startTime=year+"-"+month+"-"+day+" "+"00:00:00";break;
+            case 2:
+                if (month.equals("01")) {
+                    year=String.format("%04d",Integer.valueOf(year)-1);
+                    month="12";
+                }
+                else month=String.format("%02d",Integer.valueOf(month)-1);
+                startTime=year+"-"+month+"-"+day+" "+"00:00:00";
+                break;
+            case 3:
+                year=String.format("%04d",Integer.valueOf(year)-1);
+                startTime=year+"-"+month+"-"+day+" "+"00:00:00";
+                break;
+        }
         for(int roomid:roomlist) {
-            roomStatisList.add(managerserivce.queryRoom(roomid,startTime,stopTime));
+            roomStatisList.add(managerSerivce.queryRoom(roomid,startTime,stopTime));
         }
 
         return roomStatisList;
