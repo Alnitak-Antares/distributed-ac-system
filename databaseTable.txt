@@ -1,78 +1,78 @@
 
 
 
-ÓÃ»§±í
+ç”¨æˆ·è¡¨
 User {
-	int userid;                 //ÓÃ»§id
-	String username;            //ÓÃ»§Ãû
-	String password;            //ÃÜÂë
+	int userid;                 //ç”¨æˆ·id
+	String username;            //ç”¨æˆ·å
+	String password;            //å¯†ç 
 }
 
-·¿¼äÍ³¼Æ±í
+æˆ¿é—´ç»Ÿè®¡è¡¨
 Room {
-    int TurnOnCounter;          //¿ª¹Ø´ÎÊı
-    int RunningTime;            //ÔËĞĞÊ±¼ä£¬min
-    int totServerTime;          //±»µ÷¶È´ÎÊı
-    double billCounter;         //×Ü·ÑÓÃ
-    int ChangeTermCounter;      //¸Ä±äÎÂ¶È´ÎÊı
-    int ChangeFunCounter;       //¸Ä±ä·çËÙ´ÎÊı
+    int TurnOnCounter;          //å¼€å…³æ¬¡æ•°
+    int RunningTime;            //è¿è¡Œæ—¶é—´ï¼Œmin
+    int totServerTime;          //è¢«è°ƒåº¦æ¬¡æ•°
+    double billCounter;         //æ€»è´¹ç”¨
+    int ChangeTermCounter;      //æ”¹å˜æ¸©åº¦æ¬¡æ•°
+    int ChangeFunCounter;       //æ”¹å˜é£é€Ÿæ¬¡æ•°
 }
 
 
-·şÎñ±í
+æœåŠ¡è¡¨
 
 Bill {
-    int billid;                 //ÕËµ¥µÄid
-    String startime;            //·şÎñ¿ªÊ¼Ê±¼ä
-    String stoptime;            //·şÎñ½áÊøÊ±¼ä
-    double Fee;                 //·şÎñ·ÑÓÃ
-    int Roomid;                 //·¿¼äid
-    int userid;                 //Ê¹ÓÃµÄ·¿¿Íid
-    int serverTime;             //·şÎñÊ±³¤
+    int billid;                 //è´¦å•çš„id
+    String startime;            //æœåŠ¡å¼€å§‹æ—¶é—´
+    String stoptime;            //æœåŠ¡ç»“æŸæ—¶é—´
+    double Fee;                 //æœåŠ¡è´¹ç”¨
+    int Roomid;                 //æˆ¿é—´id
+    int userid;                 //ä½¿ç”¨çš„æˆ¿å®¢id
+    int serverTime;             //æœåŠ¡æ—¶é•¿
 }
 
-//Ã¿´Î½øÈëµ÷¶ÈÊ±µÄÊ±¼ä
+//æ¯æ¬¡è¿›å…¥è°ƒåº¦æ—¶çš„æ—¶é—´
 serviceDei {
-    int billid;                 //ÕËµ¥id£¬Ö÷¼ü
-    int serviceid;              //·şÎñid£¬Ö÷¼ü
-    String servstartime;        //·şÎñ¿ªÊ¼Ê±¼ä
-    String servstoptime;        //·şÎñ½áÊøÊ±¼ä
-    int tarTemp;                //Ä¿±êÎÂ¶È
-    int beginTemp;              //¿ªÊ¼Ê±µÄÎÂ¶È
-    int funSpeed;               //Ñ¡Ôñ·çËÙ
-    double servfee;             //·şÎñ·ÑÓÃ
+    int billid;                 //è´¦å•idï¼Œä¸»é”®
+    int serviceid;              //æœåŠ¡idï¼Œä¸»é”®
+    String servstartime;        //æœåŠ¡å¼€å§‹æ—¶é—´
+    String servstoptime;        //æœåŠ¡ç»“æŸæ—¶é—´
+    int tarTemp;                //ç›®æ ‡æ¸©åº¦
+    int beginTemp;              //å¼€å§‹æ—¶çš„æ¸©åº¦
+    int funSpeed;               //é€‰æ‹©é£é€Ÿ
+    double servfee;             //æœåŠ¡è´¹ç”¨
 }
 
 
-¶ÔÏó£º
-·¿¼ä×´Ì¬±í
+å¯¹è±¡ï¼š
+æˆ¿é—´çŠ¶æ€è¡¨
 RoomState {
-    int nowTemp;            //µ±Ç°ÎÂ¶È
-    int TarTemp;            //Ä¿±êÎÂ¶È
-    int starTemp;           //¿ªÊ¼ÎÂ¶È
-    int funSpeed;           //·çËÙ
-    String startime;        //¿ªÊ¼Ê±¼ä
-    String stoptime;        //½áÊøÊ±¼ä
-    int totaltime;          //·şÎñ×ÜÊ±³¤
-    Boolean Power;           //·şÎñ×´Ì¬£¨¿ª»òÕß¹Ø£©
+    int nowTemp;            //å½“å‰æ¸©åº¦
+    Boolean Power;           //æœåŠ¡çŠ¶æ€ï¼ˆå¼€æˆ–è€…å…³ï¼‰
 }
 
 
 
-µ÷¶ÈÏµÍ³
-DispatchCore {
-    private ArrayList<WaitServ> waitlist;
-    private ArrayList<Service> service;
+è°ƒåº¦ç³»ç»Ÿ
+dispatchCore {
 
-    public acceptRequset(
-    public Service find
+    private ArrayList<Service> waitingList;
+    private ArrayList<Service> runningList;
+    private ArrayList<RoomState> roomList;
+
+
+
+    public acceptRequest();
+    public Service findRoomService();
+
+
 
 }
 
-WaitServ{
-    int roomid;
-    int serviceid;
-    int 
-
-
+Service {
+    int roomId;             //æˆ¿é—´id
+    int starTemp;
+    int tarTemp;
+    int FunSpeed;
+    String startTime;      //
 }

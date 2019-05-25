@@ -1,68 +1,51 @@
 package app.dto;
 
 public class RoomState {
-    private int nowTemp;
-    private int tarTemp;
-    private int starTemp;
-    private enum FunSpeed {LOW, MIDDLE, HIGH};
-    private String startime;
-    private String stoptime;
-    private int totaltime;
-    private Boolean power;
-
-    public int getNowTemp() {
-        return nowTemp;
-    }
+    private int nowTemp;            //当前室温
+    private int tarTemp;            //最后一次的目标温度
+    private int funSpeed;           //最后一次的目标风速
+    private Boolean isPowerOn;      //是否开机
+    private Boolean isInService;    //是否服务
 
     public int getTarTemp() {
         return tarTemp;
-    }
-
-    public int getStarTemp() {
-        return starTemp;
-    }
-
-    public String getStartime() {
-        return startime;
-    }
-
-    public String getStoptime() {
-        return stoptime;
-    }
-
-    public int getTotaltime() {
-        return totaltime;
-    }
-
-    public Boolean getPower() {
-        return power;
-    }
-
-    public void setNowTemp(int nowTemp) {
-        this.nowTemp = nowTemp;
     }
 
     public void setTarTemp(int tarTemp) {
         this.tarTemp = tarTemp;
     }
 
-    public void setStarTemp(int starTemp) {
-        this.starTemp = starTemp;
+    public int getFunSpeed() {
+        return funSpeed;
     }
 
-    public void setStartime(String startime) {
-        this.startime = startime;
+    public void setFunSpeed(int funSpeed) {
+        this.funSpeed = funSpeed;
     }
 
-    public void setStoptime(String stoptime) {
-        this.stoptime = stoptime;
+    public Boolean getInService() {
+        return isInService;
     }
 
-    public void setTotaltime(int totaltime) {
-        this.totaltime = totaltime;
+    public void setInService(Boolean inService) {
+        isInService = inService;
     }
 
-    public void setPower(Boolean power) {
-        this.power = power;
+    public int getNowTemp() {
+        return nowTemp;
     }
+
+    public Boolean getPowerOn() {
+        return isPowerOn;
+    }
+
+    public void setNowTemp(int nowTemp) {
+        this.nowTemp = nowTemp;
+    }
+
+    public void setPowerOn(Boolean powerOn) {
+        isPowerOn = powerOn;
+    }
+
+
 }
