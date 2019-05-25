@@ -49,7 +49,7 @@
       <property name="ignoreQualifiersAtRuntime" value="true"/>
     </table>
     <!--自动生成billid-->
-    <table catalog="distributedairconditioner" tableName="billid" domainObjectName="billId"
+    <table catalog="distributedairconditioner" tableName="bill" domainObjectName="bill"
            enableCountByExample="true"
            enableUpdateByExample="true"
            enableDeleteByExample="true"
