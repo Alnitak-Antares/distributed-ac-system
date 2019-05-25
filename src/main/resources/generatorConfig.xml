@@ -29,7 +29,7 @@
       <property name="enableSubPackages" value="true"/>
     </javaClientGenerator>
     <!--自动生成User-->
-    <table catalog="rentsystem" tableName="user" domainObjectName="User"
+    <table catalog="distributedairconditioner" tableName="user" domainObjectName="User"
            enableCountByExample="true"
            enableUpdateByExample="true"
            enableDeleteByExample="true"
@@ -38,8 +38,8 @@
       <property name="useActualColumnNames" value="false"/>
       <property name="ignoreQualifiersAtRuntime" value="true"/>
     </table>
-    <!--自动生成House-->
-    <table catalog="rentsystem" tableName="house" domainObjectName="House"
+    <!--自动生成Roomstatis-->
+    <table catalog="distributedairconditioner" tableName="roomstatis" domainObjectName="roomStatis"
            enableCountByExample="true"
            enableUpdateByExample="true"
            enableDeleteByExample="true"
@@ -48,8 +48,18 @@
       <property name="useActualColumnNames" value="false"/>
       <property name="ignoreQualifiersAtRuntime" value="true"/>
     </table>
-    <!--自动生成House-->
-    <table catalog="rentsystem" tableName="income" domainObjectName="Income"
+    <!--自动生成billid-->
+    <table catalog="distributedairconditioner" tableName="billid" domainObjectName="billId"
+           enableCountByExample="true"
+           enableUpdateByExample="true"
+           enableDeleteByExample="true"
+           enableSelectByExample="true"
+           selectByExampleQueryId="true" >
+      <property name="useActualColumnNames" value="false"/>
+      <property name="ignoreQualifiersAtRuntime" value="true"/>
+    </table>
+    <!--自动生成Servicedetail-->
+    <table catalog="distributedairconditioner" tableName="servicedetail" domainObjectName="serviceDetail"
            enableCountByExample="true"
            enableUpdateByExample="true"
            enableDeleteByExample="true"
