@@ -72,7 +72,14 @@ DispatchCore {
 WaitServ{
     int roomid;
     int serviceid;
-    int 
+    int FunSpeed;
+    int
+
+}
+
+Service {
+    int roomid;
+    int
 
 
 }
