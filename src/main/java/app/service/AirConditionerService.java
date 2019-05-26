@@ -7,6 +7,7 @@ import app.dto.Service;
 import app.entity.User;
 import app.entity.bill;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

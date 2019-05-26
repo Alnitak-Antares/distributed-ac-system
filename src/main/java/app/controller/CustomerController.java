@@ -31,7 +31,7 @@ public class CustomerController {
         acService.changeTargetTemp(roomID, targetTemp);
     }
 
-    @PostMapping("/ChangeTargetTemp")
+    @PostMapping("/ChangeFunSpeed")
     public void changeTargetFunSpeed(@RequestParam(value="roomID") int roomID, @RequestParam(value="targetFanSpeed") String targetFanSpeed) {
         acService.changeFanSpeed(roomID, targetFanSpeed);
     }
