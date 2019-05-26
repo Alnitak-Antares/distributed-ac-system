@@ -2,6 +2,7 @@ package app.service;
 
 import app.dto.AirConditionerParams;
 import app.dto.Room;
+import app.dto.RoomState;
 import app.dto.Service;
 import app.entity.bill;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,6 @@ public class AirConditionerService {
         }
     }
 
-    public String getFunSpeed() {
-        return acParams.getDefaultFunSpeed();
-    }
     private Service findRoomService(int roomId) {
         for (Service serv: runningList) {
             if(serv.getRoomId() == roomId)
@@ -78,11 +76,12 @@ public class AirConditionerService {
     }
     //调节温度
     public void ChangeTargetTemp(int roomId, int tarTemp) {
-        //Concern! 使用startTime计时计费不正确（服务过程中被调度）
 
         //service持久化 当前时间：LocalDateTime.now()
         Service serv = findRoomService(roomId);
-        serviceDetailService.sumbitDetail(serv);
+        if (runningList.contains(serv))
+            serviceDetailService.sumbitDetail(serv);
+
         //增加bill中的更改温度计数器
         billService.addTempCounter(billList.get(roomId),serv);
 
@@ -94,12 +93,14 @@ public class AirConditionerService {
 
     //调节风速
     public void ChangeFanSpeed(int roomId, String funSpeed) {
-        //Concern! 使用startTime计时计费不正确（服务过程中被调度）
 
         Service serv = findRoomService(roomId);
         //service持久化 当前时间：LocalDateTime.now()
-        serviceDetailService.sumbitDetail(serv);
+
+        if (runningList.contains(serv))
+            serviceDetailService.sumbitDetail(serv);
         //增加bill中的更改风速计数器
+
         billService.addFunCounter(billList.get(roomId),serv);
 
         serv.setFunSpeed(funSpeed);
@@ -116,17 +117,30 @@ public class AirConditionerService {
         deleteRoomService(roomId);
         roomList.get(roomId).clear();
 
-        //To-do 将roomId对应的详单和账单持久化
     }
 
     public double requestFee(int roomId) {
         return billList.get(roomId).getTotalfee();
     }
 
-    //2. 空调管理员
-    //检查房间
-    public Room getRoomState(int roomId) {
-        return roomList.get(1);
+    //管理员监视房间
+    public RoomState checkRoomState(int roomId) {
+        Service serv = findRoomService(roomId);
+        Room room = roomList.get(roomId);
+        bill b = billList.get(roomId);
+
+        RoomState rs = new RoomState();
+        if (serv != null) {
+            rs.setFeeRate(serv.getFeeRate());
+            rs.setFunSpeed(serv.getFunSpeed());
+            rs.setTarTemp(serv.getTarTemp());
+        }
+        rs.setPowerOn(room.getPowerOn());
+        rs.setInService(room.getInService());
+        rs.setTotalFee(b.getTotalfee());
+        rs.setRunningTime(b.getRunningtime());
+
+        return rs;
     }
 
 }

@@ -2,11 +2,13 @@ package app.controller;
 
 
 import app.dto.AirConditionerParams;
+import app.dto.RoomState;
 import app.service.AirConditionerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/admin")
 public class AdminController {
     @Autowired
     AirConditionerParams acParams;
@@ -49,14 +51,9 @@ public class AdminController {
         return acParams.getSystemState();
     }
 
-    @RequestMapping(value = "/room/{id}")
-    public int getID(@PathVariable int id) {
-        return id;
+    @RequestMapping(value = "/roomState/{roomId}")
+    public RoomState checkRoomState(@PathVariable int roomId) {
+        return acService.checkRoomState(roomId);
     }
 
-
-    @GetMapping(value = "/fun")
-    public String getID() {
-        return acService.getFunSpeed();
-    }
 }
