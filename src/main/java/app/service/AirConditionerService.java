@@ -37,7 +37,7 @@ public class AirConditionerService {
         billList = Collections.synchronizedList(new ArrayList<bill>());
         for(int i = 0; i < 4; i++) {
             roomList.add(new Room(acParams.getDefaultRoomTemp()));
-            billList.add(new bill());   //To-Do 初始化账单
+            billList.add(new bill(LocalDateTime.now().toString(), i));
         }
     }
 
