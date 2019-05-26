@@ -21,7 +21,9 @@ public class DeskStaffController {
     @PostMapping("/adduser")
     public String checkInCustomer(String phoneNumber) {
         //前台增加用户，需要房客的手机号码，返回房客房间空调系统的密码
+        //
         //如果房间满，返回字符串为NOROOM
+
         return airConditionerService.checkInCustom(phoneNumber);
     }
 

@@ -39,7 +39,7 @@
       <property name="ignoreQualifiersAtRuntime" value="true"/>
     </table>
     <!--自动生成Roomstatis-->
-    <table catalog="distributedairconditioner" tableName="roomstatis" domainObjectName="roomStatis"
+    <!--<table catalog="distributedairconditioner" tableName="roomstatis" domainObjectName="roomStatis"
            enableCountByExample="true"
            enableUpdateByExample="true"
            enableDeleteByExample="true"
@@ -48,7 +48,7 @@
       <property name="useActualColumnNames" value="false"/>
       <property name="ignoreQualifiersAtRuntime" value="true"/>
     </table>
-    <!--自动生成billid-->
+    &lt;!&ndash;自动生成billid&ndash;&gt;
     <table catalog="distributedairconditioner" tableName="bill" domainObjectName="bill"
            enableCountByExample="true"
            enableUpdateByExample="true"
@@ -57,9 +57,9 @@
            selectByExampleQueryId="true" >
       <property name="useActualColumnNames" value="false"/>
       <property name="ignoreQualifiersAtRuntime" value="true"/>
-    </table>
+    </table>-->
     <!--自动生成Servicedetail-->
-    <table catalog="distributedairconditioner" tableName="servicedetail" domainObjectName="serviceDetail"
+    <!--<table catalog="distributedairconditioner" tableName="servicedetail" domainObjectName="serviceDetail"
            enableCountByExample="true"
            enableUpdateByExample="true"
            enableDeleteByExample="true"
@@ -67,7 +67,7 @@
            selectByExampleQueryId="true" >
       <property name="useActualColumnNames" value="false"/>
       <property name="ignoreQualifiersAtRuntime" value="true"/>
-    </table>
+    </table>-->
 
 
   </context>

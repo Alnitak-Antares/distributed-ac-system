@@ -6,7 +6,8 @@ create table User
 (
   userId int auto_increment primary key ,
   userName nvarchar(20),
-  password nvarchar(20)
+  password nvarchar(20),
+  RoomId int
 )default charset=utf8;
 
 create table Bill(
