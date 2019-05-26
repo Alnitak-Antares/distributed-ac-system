@@ -148,7 +148,7 @@ public class AirConditionerService {
     }
 
     //前台服务人员办理入住
-    public String checkInCustom(String phoneNumber) {
+    public User checkInCustom(String phoneNumber) {
         LocalDateTime nowtime=LocalDateTime.now();
         for(int indexRoom=0;indexRoom<4;indexRoom++) {
             Room nowRoom = roomList.get(indexRoom);
@@ -159,10 +159,10 @@ public class AirConditionerService {
                 nowuser.setPassword(createRandomNumber(4));
                 nowRoom.setStartTime(nowtime);
                 billList.get(indexRoom).setStarttime(nowtime.toString());
-                return nowuser.getPassword();
+                return nowuser;
             }
         }
-        return "NoROOM";
+        return null;
     }
     //创建随机密码
     private String createRandomNumber(int length) {

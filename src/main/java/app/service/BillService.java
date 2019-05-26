@@ -1,11 +1,16 @@
 package app.service;
 
 import app.dao.billMapper;
+import app.dto.DetailRecord;
 import app.dto.Service;
 import app.entity.bill;
+import app.entity.billExample;
+import app.entity.serviceDetail;
+import app.entity.serviceDetailExample;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @org.springframework.stereotype.Service
 public class BillService {
@@ -50,6 +55,21 @@ public class BillService {
     public void submitBill(bill nowBill) {
 
 
+    }
+
+    public bill selectByRoomIdAndTime(int roomId
+            , String startTime, String stopTime) {
+
+        billExample suitBill=new billExample();
+        suitBill.createCriteria()
+                .andRoomidEqualTo(roomId)
+                .andStarttimeBetween(startTime,stopTime)
+                .andStoptimeBetween(startTime,stopTime);
+        List<bill> billList=
+                billmapper.selectByExample(suitBill);
+        if (billList.size()>0)
+            return billList.get(billList.size()-1);
+        return null;
     }
 
    /* public void addTempCounter(bill nowBill) {
