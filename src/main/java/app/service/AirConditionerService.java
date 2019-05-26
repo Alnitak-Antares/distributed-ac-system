@@ -4,6 +4,7 @@ import app.dto.AirConditionerParams;
 import app.dto.Room;
 import app.dto.RoomState;
 import app.dto.Service;
+import app.entity.User;
 import app.entity.bill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 @Component
 public class AirConditionerService {
@@ -65,7 +67,7 @@ public class AirConditionerService {
     }
 
     public void requestPowerOn(int roomId) {
-        if (roomList.get(roomId).getPowerOn()) return;
+        if (roomList.get(roomId).isPowerOn()) return;
         roomList.get(roomId).setPowerOn(true);
         billService.addPowerOn(billList.get(roomId));
 
@@ -135,12 +137,38 @@ public class AirConditionerService {
             rs.setFunSpeed(serv.getFunSpeed());
             rs.setTarTemp(serv.getTarTemp());
         }
-        rs.setPowerOn(room.getPowerOn());
-        rs.setInService(room.getInService());
+        rs.setPowerOn(room.isPowerOn());
+        rs.setInService(room.isInService());
         rs.setTotalFee(b.getTotalfee());
         rs.setRunningTime(b.getRunningtime());
 
         return rs;
     }
+
+    //前台服务人员办理入住
+    public String checkInCustom(String phoneNumber) {
+        LocalDateTime nowtime=LocalDateTime.now();
+        for(int indexRoom=0;indexRoom<5;indexRoom++) {
+            Room nowRoom = roomList.get(indexRoom);
+            if (!nowRoom.isCheckIn()) {
+                User nowuser = new User();
+                nowuser.setUsername(phoneNumber);
+                nowuser.setPassword(createRandomNumber(4));
+                nowRoom.setStartTime(nowtime);
+                billList.get(indexRoom).setStarttime(nowtime.toString());
+                return nowuser.getPassword();
+            }
+        }
+        return "NoROOM";
+    }
+    //创建随机密码
+    private String createRandomNumber(int length) {
+        StringBuilder sb=new StringBuilder();
+        Random rand=new Random();
+        for(int i=0;i<length;i++)
+                sb.append(rand.nextInt(10));
+        return sb.toString();
+    }
+    //
 
 }

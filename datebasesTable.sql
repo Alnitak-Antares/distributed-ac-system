@@ -30,6 +30,7 @@ create table ServiceDetail(
   startTime varchar(20),
   stopTime varchar(20),
   roomId int,
+  userId int,
   funSpeed varchar(20),
   feeRate double(10,2),
   fee double(10,2)

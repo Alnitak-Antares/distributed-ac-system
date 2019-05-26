@@ -1,7 +1,7 @@
 package app.dto;
 
 import app.entity.bill;
-
+//酒店管理人员的统计量
 public class RoomStatis {
     private Integer roomid;
     private double totalfee;

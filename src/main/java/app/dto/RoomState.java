@@ -1,6 +1,6 @@
 package app.dto;
 
-
+//空调运维人员的统计量
 public class RoomState {
     private boolean isPowerOn;      //是否开机
     private boolean isInService;    //是否服务
