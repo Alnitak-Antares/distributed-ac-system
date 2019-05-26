@@ -39,7 +39,7 @@ public class AirConditionerService {
         billList = Collections.synchronizedList(new ArrayList<bill>());
         for(int i = 0; i < 4; i++) {
             roomList.add(new Room(acParams.getDefaultRoomTemp()));
-            billList.add(new bill(LocalDateTime.now().toString(), i));
+            billList.add(new bill(i));
         }
     }
 
@@ -72,12 +72,13 @@ public class AirConditionerService {
         billService.addPowerOn(billList.get(roomId));
 
         Service service = new Service(roomId, acParams.getDefaultTargetTemp(), acParams.getDefaultFunSpeed(), LocalDateTime.now(), acParams.getDefaultFeeRate());
-
         waitingList.add(service);
+
+        billList.get(roomId).setStarttime(LocalDateTime.now().toString());
 
     }
     //调节温度
-    public void ChangeTargetTemp(int roomId, int tarTemp) {
+    public void changeTargetTemp(int roomId, int tarTemp) {
 
         //service持久化 当前时间：LocalDateTime.now()
         Service serv = findRoomService(roomId);
@@ -94,7 +95,7 @@ public class AirConditionerService {
     }
 
     //调节风速
-    public void ChangeFanSpeed(int roomId, String funSpeed) {
+    public void changeFanSpeed(int roomId, String funSpeed) {
 
         Service serv = findRoomService(roomId);
         //service持久化 当前时间：LocalDateTime.now()

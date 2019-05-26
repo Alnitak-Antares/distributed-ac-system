@@ -16,13 +16,13 @@ public class AdminController {
     @Autowired
     AirConditionerService acService;
 
-    @RequestMapping(value = "/powerOn", method = RequestMethod.POST)
+    @GetMapping(value = "/powerOn")
     public String powerOn() {
         acParams.setSystemState("READY");
         return acParams.getSystemState();
     }
 
-    @RequestMapping(value = "/setParams", method = RequestMethod.GET)
+    @PostMapping(value = "/setParams")
     public AirConditionerParams setParams(@RequestParam(value="defaultRoomTemp") int defaultRoomTemp,
                                           @RequestParam(value="tempHighLimit") int tempHighLimit,
                                           @RequestParam(value="tempLowLimit") int tempLowLimit,
@@ -44,16 +44,16 @@ public class AdminController {
         return acParams;
     }
 
-    @RequestMapping(value = "/startup", method = RequestMethod.POST)
+    @GetMapping(value = "/startup")
     public String startup() {
         acParams.setSystemState("ON");
         acService.init();
         return acParams.getSystemState();
     }
 
-    @RequestMapping(value = "/roomState/{roomId}")
-    public RoomState checkRoomState(@PathVariable int roomId) {
-        return acService.checkRoomState(roomId);
+    @GetMapping(value = "/roomState/{roomID}")
+    public RoomState checkRoomState(@PathVariable int roomID) {
+        return acService.checkRoomState(roomID);
     }
 
 }

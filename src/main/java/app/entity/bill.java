@@ -97,8 +97,7 @@ public class bill {
      */
     private Integer changefuncounter;
 
-    public bill(String starttime, Integer roomid) {
-        this.starttime = starttime;
+    public bill(Integer roomid) {
         this.roomid = roomid;
     }
 
