@@ -5,6 +5,7 @@ import app.entity.User;
 import app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -15,8 +16,8 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-
-    @PostMapping("/login")
+    //finish test
+    @GetMapping("/login")
     public String login(@RequestParam(value="username") String username, @RequestParam(value="password") String password) {
         //
         User nowUser=userService.selectByUsername(username);

@@ -36,7 +36,7 @@ public class ReceptionistController {
         return airConditionerService.checkInCustom(phoneNumber);
     }
 
-    @GetMapping("createrdr")
+    @GetMapping("/createrdr")
     public DetailRecord createRDR(@RequestParam(value="roomid") int roomId,
                                   @RequestParam(value="starttime") String startTime,
                                   @RequestParam(value="stopttime") String stopTime) {
@@ -45,7 +45,7 @@ public class ReceptionistController {
     }
 
 
-    @GetMapping("CreateInvoice")
+    @GetMapping("/createinvoice")
     public bill CreateInvoice(@RequestParam(value="roomid") int roomId,
                               @RequestParam(value="starttime") String startTime,
                               @RequestParam(value="stopttime") String stopTime) {

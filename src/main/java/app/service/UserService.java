@@ -17,6 +17,7 @@ public class UserService {
     private UserMapper usermapper;
 
     public User selectByUsername(String userName) {
+        System.out.println(userName);
         UserExample suitUser=new UserExample();
         suitUser.createCriteria()
                 .andUsernameEqualTo(userName);
