@@ -176,15 +176,15 @@ response（json格式）:
         "changefuncounter": 0
     }
 ]
+```
 ## 顾客页面
 ### 页面功能
-顾客页面需要向顾客提供开机、调温、调风、关机功能，并能实时展示费用（定时向后端请求） 
+顾客页面需要向顾客提供开机、调温、调风、关机功能，并能实时展示当前室温、风速、总费用等状态（定时向后端请求），数据呈现的样式由前端进行界面设计，后端会提供接口返回当前房间的所有状态信息
 为了区分不同顾客和房间，要求前端在顾客每一次请求的HTTP body中加上顾客的roomID参数
-//顾客页面同时也需要展示当前室温、风速、目标温度等功能，这点数据通信的方式结合前端界面设计再讨论
 ### 前后端接口及数据通信格式
 一、开空调
 ```http
-url: /admin/requestOn
+url: /customer/requestOn
 methon:POST
 body: 
 (value="roomID") int )
@@ -192,7 +192,7 @@ response: 可忽略
 ```
 二、关空调
 ```http
-url: /admin/requestOff
+url: /customer/requestOff
 methon:POST
 body: 
 (value="roomID") int )
@@ -200,15 +200,15 @@ response: 可忽略
 ```
 三、获取当前费用
 ```http
-url: /admin/requestFee
-methon:POST
+url: /customer/requestRoomState
+methon:GET
 body:
 (value="roomID") int )
-response:  double类型的当前费用
+response:  与管理员部分监视房间状态接口的返回值一致
 ```
 四、调温
 ```http
-url: /admin/changeTargetTemp
+url: /customer/changeTargetTemp
 methon:POST
 body:
 (value="roomID") int )
@@ -217,7 +217,7 @@ response: 可忽略
 ```
 五、调风
 ```http
-url: /admin/changeFanSpeed
+url: /customer/changeFanSpeed
 methon:POST
 body:
 (value="roomID") int )
