@@ -198,7 +198,7 @@ body:
 (value="roomID") int )
 response: 可忽略
 ```
-三、获取当前费用
+三、获取房间状态信息
 ```http
 url: /customer/requestRoomState
 methon:GET
