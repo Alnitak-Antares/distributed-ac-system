@@ -146,27 +146,36 @@ response:（json格式）
 url:/manager/queryreport
 methon:get
 body：
-list_Room : [  x , x , x ]   //房号
+list_Roomid:1
+list_Roomid:2
 type_Report : 0/1/2       // 0 日报，1周报 ，2年报
 year: yyyy        //固定4位数字，表示查询的起始年份
 month: mm      //固定2位数字，表示查询的起始月份
 day: dd            //固定2位数字，表示查询的起始日期
+
 response（json格式）:
-[{   “roomid”: xx,
-"totalfee": xx,
-"runningtime": xx,
-"scheduleCounter":xx,
-"detailedRecordCounter“:xx,
-"powerOnCounter”:xx,
-"changetempcounter“:xx,
-"changefuncounter":xx
-},
-{
-...................
-..................
-}
+[
+    {
+        "roomid": 1,
+        "totalfee": 0,
+        "runningtime": 0,
+        "scheduleCounter": 0,
+        "detailedRecordCounter": 0,
+        "powerOnCounter": 0,
+        "changetempcounter": 0,
+        "changefuncounter": 0
+    },
+    {
+        "roomid": 2,
+        "totalfee": 0,
+        "runningtime": 0,
+        "scheduleCounter": 0,
+        "detailedRecordCounter": 0,
+        "powerOnCounter": 0,
+        "changetempcounter": 0,
+        "changefuncounter": 0
+    }
 ]
-```
 ## 顾客页面
 ### 页面功能
 顾客页面需要向顾客提供开机、调温、调风、关机功能，并能实时展示费用（定时向后端请求） 

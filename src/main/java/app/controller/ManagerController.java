@@ -22,13 +22,20 @@ public class ManagerController {
 
     @GetMapping("/queryreport")
     public ArrayList<RoomStatis> QueryReport(HttpServletRequest request) {
-        /* "list_home":["1","2","4"],
-           "type_Report": 0/1/2,
+        System.out.println("!!!!!!!!!!!!!!!!!!!");
+        /* "list_romeid":["1","2","4"],
+           "type_report": 0/1/2,
            "year":xxxx,
            "month":mm, 01/02/.../12
            "day":dd,    01/02/../30
          */
-        List<Integer> roomlist=(List<Integer>)JSON.parse(request.getParameter("list_Roomid"));
+
+        System.out.println(request.getParameterValues("list_Roomid"));
+        String[] nowStrList=request.getParameterValues("list_Roomid");
+        ArrayList<Integer> roomlist=new ArrayList<>();
+        for(String nowStr:nowStrList) {
+            roomlist.add(Integer.parseInt(nowStr));
+        }
         ArrayList<RoomStatis> roomStatisList=new ArrayList<RoomStatis>();
         Integer typeReport=Integer.valueOf(request.getParameter("type_Report"));
         String year=request.getParameter("year");
@@ -37,8 +44,8 @@ public class ManagerController {
         String stopTime=year+"-"+month+"-"+day+" "+"23:59:59";
         String startTime="0000-00-00";
         switch (typeReport) {
-            case 1:startTime=year+"-"+month+"-"+day+" "+"00:00:00";break;
-            case 2:
+            case 0:startTime=year+"-"+month+"-"+day+" "+"00:00:00";break;
+            case 1:
                 if (month.equals("01")) {
                     year=String.format("%04d",Integer.valueOf(year)-1);
                     month="12";
@@ -46,11 +53,14 @@ public class ManagerController {
                 else month=String.format("%02d",Integer.valueOf(month)-1);
                 startTime=year+"-"+month+"-"+day+" "+"00:00:00";
                 break;
-            case 3:
+            case 2:
                 year=String.format("%04d",Integer.valueOf(year)-1);
                 startTime=year+"-"+month+"-"+day+" "+"00:00:00";
                 break;
         }
+        //debug output
+        System.out.println(typeReport+" "+startTime+" "+stopTime);
+
         for(int roomid:roomlist) {
             roomStatisList.add(managerSerivce.queryRoom(roomid,startTime,stopTime));
         }

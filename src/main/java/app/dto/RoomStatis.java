@@ -34,4 +34,68 @@ public class RoomStatis {
         this.changetempcounter=0;
         this.changefuncounter=0;
     }
+
+    public Integer getRoomid() {
+        return roomid;
+    }
+
+    public void setRoomid(Integer roomid) {
+        this.roomid = roomid;
+    }
+
+    public double getTotalfee() {
+        return totalfee;
+    }
+
+    public void setTotalfee(double totalfee) {
+        this.totalfee = totalfee;
+    }
+
+    public Integer getRunningtime() {
+        return runningtime;
+    }
+
+    public void setRunningtime(Integer runningtime) {
+        this.runningtime = runningtime;
+    }
+
+    public Integer getScheduleCounter() {
+        return scheduleCounter;
+    }
+
+    public void setScheduleCounter(Integer scheduleCounter) {
+        this.scheduleCounter = scheduleCounter;
+    }
+
+    public Integer getDetailedRecordCounter() {
+        return detailedRecordCounter;
+    }
+
+    public void setDetailedRecordCounter(Integer detailedRecordCounter) {
+        this.detailedRecordCounter = detailedRecordCounter;
+    }
+
+    public Integer getPowerOnCounter() {
+        return powerOnCounter;
+    }
+
+    public void setPowerOnCounter(Integer powerOnCounter) {
+        this.powerOnCounter = powerOnCounter;
+    }
+
+    public Integer getChangetempcounter() {
+        return changetempcounter;
+    }
+
+    public void setChangetempcounter(Integer changetempcounter) {
+        this.changetempcounter = changetempcounter;
+    }
+
+    public Integer getChangefuncounter() {
+        return changefuncounter;
+    }
+
+    public void setChangefuncounter(Integer changefuncounter) {
+        this.changefuncounter = changefuncounter;
+    }
 }
