@@ -97,8 +97,19 @@ public class bill {
      */
     private Integer changefuncounter;
 
+
     public bill(Integer roomid) {
         this.roomid = roomid;
+        this.starttime = "0";
+        this.stoptime = "0";
+        this.userid = 0;
+        this.totalfee = 0.0;
+        this.runningtime = 0;
+        this.schedulecounter = 0;
+        this.detailedrecordcounter = 0;
+        this.poweroncounter = 0;
+        this.changetempcounter = 0;
+        this.changefuncounter = 0;
     }
 
     /**

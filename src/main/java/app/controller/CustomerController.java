@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.dto.RoomState;
 import app.service.AirConditionerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +22,9 @@ public class CustomerController {
         acService.requestPowerOff(roomID);
     }
 
-    @GetMapping("/requestFee")
-    public double requestFee(@RequestParam(value="roomID") int roomID) {
-        return acService.requestFee(roomID);
+    @GetMapping("/requestRoomState")
+    public RoomState requestRoomState(@RequestParam(value="roomID") int roomID) {
+        return acService.checkRoomState(roomID);
     }
 
     @PostMapping("/changeTargetTemp")

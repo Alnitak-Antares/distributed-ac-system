@@ -6,7 +6,7 @@ public class RoomState {
     private boolean isInService;    //是否服务
     private double nowTemp;            //当前室温
     private int tarTemp;
-    private String funSpeed;
+    private String funSpeed = "OFF";
     private double feeRate;
     private double totalFee;
     private int runningTime;    //单位为秒

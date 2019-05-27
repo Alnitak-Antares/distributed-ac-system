@@ -15,6 +15,9 @@ public class Room {
         this.nowTemp = nowTemp;
         this.isPowerOn = false;
         this.isInService = false;
+        this.funSpeed = "OFF";
+        this.startTime = LocalDateTime.now();
+
     }
 
     public void clear() {
