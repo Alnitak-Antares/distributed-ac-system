@@ -8,6 +8,8 @@ http://localhost:8080/admin/powerOn
 
 #### 3. 管理员设置参数
 
+http://localhost:8080/admin/setParams?defaultRoomTemp=30&tempHighLimit=30&tempLowLimit=16&defaultTargetTemp=24&feeRateHigh=3&feeRateMiddle=2&feeRateLow=1&defaultFunSpeed=MIDDLE
+
 #### 4. 管理员开启系统（finish)
 
 http://localhost:8080/admin/startup
@@ -42,4 +44,16 @@ http://localhost:8080/receptionist/checkout?roomid=1
 #### 8. 前台服务人员打印详单（finish)
 
 #### 9. 前台服务人员打印账单（finish)
+
+#### 10. 管理人员查看房间统计信息
+
+##### list_room只有一个参数
+
+
+
+##### list_room有多个参数
+
+
+
+
 

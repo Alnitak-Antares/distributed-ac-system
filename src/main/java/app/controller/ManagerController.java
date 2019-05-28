@@ -56,12 +56,12 @@ public class ManagerController {
         switch (typeReport) {
             case 0:startTime=year+"-"+month+"-"+day+"T"+"00:00:00";break;
             case 1:
-                month=String.format("%02d",Integer.valueOf(month)-1);
+                month=String.format("%02d",Integer.valueOf(month));
                 startTime=year+"-"+month+"-"+"01"+"T"+"00:00:00";
                 stopTime=year+"-"+month+"-"+"31"+"T"+"23:59:59";
                 break;
             case 2:
-                year=String.format("%04d",Integer.valueOf(year)-1);
+                year=String.format("%04d",Integer.valueOf(year));
                 startTime=year+"-"+"01"+"-01"+"T"+"00:00:00";
                 stopTime=year+"-"+"12"+"-"+"31"+"T"+"23:59:59";
                 break;
@@ -75,6 +75,32 @@ public class ManagerController {
 
         return roomStatisList;
     }
+
+
+    // 接口2：指定list_room和起始，终止时间，就能返回统计信息
+    @GetMapping("/queryreportTwo")
+    public ArrayList<RoomStatis> QueryReportTwo(HttpServletRequest request) {
+        System.out.println("====[Debug]:manager/queryreportTwo======");
+        System.out.println(request.getParameterValues("list_Roomid"));
+        String[] nowStrList=request.getParameterValues("list_Roomid");
+        ArrayList<Integer> roomlist=new ArrayList<>();
+        for(String nowStr:nowStrList) {
+            roomlist.add(Integer.parseInt(nowStr));
+        }
+        ArrayList<RoomStatis> roomStatisList=new ArrayList<RoomStatis>();
+        Integer typeReport=Integer.valueOf(request.getParameter("type_Report"));
+        String startTime=request.getParameter("startTime");
+        String stopTime=request.getParameter("stopTime");
+        System.out.println(typeReport+" "+startTime+" "+stopTime);
+
+        for(int roomid:roomlist) {
+            roomStatisList.add(managerSerivce.queryRoom(roomid,startTime,stopTime));
+        }
+
+        return roomStatisList;
+    }
+
+
 
 
 

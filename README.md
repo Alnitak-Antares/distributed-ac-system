@@ -116,14 +116,18 @@ response:（json格式）
     "password": "8728",
     "roomid": 1             //房间id
 }
+```
+
 二、办理退房
 ```
 url: /receptionist/checkout
 method: get
-body:
-roomid : xx
-response:（json格式）
-
+body:{
+	roomid : xx
+}
+response:
+"success"或者"error"
+```
 三、请求详单
 ```
 url: /receptionist/createrdr
@@ -224,6 +228,16 @@ response（json格式）:
         "changefuncounter": 0
     }
 ]
+
+p.s. 代码提供了另一个接口,但是老师要求是的是日报，周报，年报，所以这个接口似乎没用，如果你们前端想写漂亮一点也行。
+url:/manager/queryreportTwo
+methon:get
+body：
+list_Roomid:1
+list_Roomid:2
+startTime: 2019-01-01T00:00:00
+stopTime: 2019-01-01T23:59:59
+response跟上面的请求是一样的。
 ```
 ## 顾客页面
 ### 页面功能
