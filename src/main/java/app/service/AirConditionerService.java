@@ -211,6 +211,7 @@ public class AirConditionerService {
         if (nowRoom.isPowerOn()) {
             requestPowerOff(roomId);
         }
+        nowRoom.setCheckIn(false);
         nowBill.setStoptime(nowtime.toString());
         billService.submitBill(nowBill);
         return "Success";

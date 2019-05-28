@@ -35,6 +35,10 @@ public class ReceptionistController {
         //如果房间满，返回空对象
         User nowUser=airConditionerService.checkInCustom(idNumber);
         if (nowUser!=null) userService.submitUser(nowUser);
+        else {
+            nowUser=new User();
+            nowUser.setUserid(-1);
+        }
         return nowUser;
     }
 
