@@ -24,6 +24,10 @@ public class AdminController {
         return acParams.getSystemState();
     }
 
+    //finish test by postman
+    //test example:
+    //http://localhost:8080/admin/setParams?defaultRoomTemp=30&tempHighLimit=30&tempLowLimit=16&defaultTargetTemp=24&feeRateHigh=3&feeRateMiddle=2&feeRateLow=1&defaultFunSpeed=MIDDLE
+    //response:AirConditionerParams
     @PostMapping(value = "/setParams")
     public AirConditionerParams setParams(@RequestParam(value="defaultRoomTemp") int defaultRoomTemp,
                                           @RequestParam(value="tempHighLimit") int tempHighLimit,

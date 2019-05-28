@@ -44,6 +44,18 @@ body: json格式，需要包含的参数如下
 (value="feeRateLow") double ,
 (value="defaultFunSpeed") String )  //字符串, “LOW", "MIDDLE", "HIGH"三种
 response: 可忽略
+{
+    "defaultRoomTemp": 30,
+    "tempHighLimit": 30,
+    "tempLowLimit": 16,
+    "defaultTargetTemp": 24,
+    "feeRateHigh": 3,
+    "feeRateMiddle": 2,
+    "feeRateLow": 1,
+    "defaultFunSpeed": "MIDDLE",
+    "systemState": "READY",
+    "defaultFeeRate": 2
+}
 ```
 三、启动
 ```http
