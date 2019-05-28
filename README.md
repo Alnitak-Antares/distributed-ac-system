@@ -144,7 +144,8 @@ response:（json格式）
 }
 ```
 四、请求账单
-​```http
+```
+http
 url: /receptionist/createinvoice
 methon:get
 body:
@@ -167,8 +168,7 @@ response:（json格式）
     "changefuncounter": 8
 }
 ```
-四、退房
-//Word In Progress
+
 ## 经理页面
 ### 页面功能
 经理的功能是查看报表。报表=房间的账单的统计信息。
@@ -218,7 +218,8 @@ response（json格式）:
 为了区分不同顾客和房间，要求前端在顾客每一次请求的HTTP body中加上顾客的roomID参数
 ### 前后端接口及数据通信格式
 一、开空调
-```http
+```
+http
 url: /customer/requestOn
 methon:POST
 body: 
@@ -226,7 +227,8 @@ body:
 response: 可忽略
 ```
 二、关空调
-```http
+```
+http
 url: /customer/requestOff
 methon:POST
 body: 
@@ -234,7 +236,8 @@ body:
 response: 可忽略
 ```
 三、获取房间状态信息
-```http
+```
+http
 url: /customer/requestRoomState
 methon:GET
 body:
@@ -242,7 +245,8 @@ body:
 response:  与管理员部分监视房间状态接口的返回值一致
 ```
 四、调温
-```http
+```
+http
 url: /customer/changeTargetTemp
 methon:POST
 body:
@@ -251,7 +255,8 @@ body:
 response: 可忽略
 ```
 五、调风
-```http
+```
+http
 url: /customer/changeFanSpeed
 methon:POST
 body:
