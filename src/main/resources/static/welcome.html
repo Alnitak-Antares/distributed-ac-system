@@ -6,5 +6,23 @@
 </head>
 <body>
 <h1>Hello!</h1>
+
+<form action="http://localhost:8080/login" method="get" >
+    <table width="60%" height="60%">
+        <tr>
+            <td width="20%">用户名:</td>
+            <td width="40%"><input type="text" name="username" id="username"  /> <br/></td>
+            <td width="40%"><span id="username_msg"></span></td>
+        </tr>
+        <tr>
+            <td>密码:</td>
+            <td><input type="password" name="password" id="password"   /> <br/></td>
+            <td><span id="password_msg"></span></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="提交"></td>
+        </tr>
+    </table>
+</form>
 </body>
 </html>

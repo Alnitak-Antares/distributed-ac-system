@@ -20,7 +20,7 @@ public class BillService {
         nowBill.setChangetempcounter(
                 nowBill.getChangetempcounter()+1);
         nowBill.setTotalfee(
-                nowBill.getBillid()+nowServ.getCurrentFee());
+                nowBill.getTotalfee()+nowServ.getCurrentFee());
         nowBill.setRunningtime(nowBill.getRunningtime()+
                 (int)(java.time.Duration.between(nowServ.getStartTime(), LocalDateTime.now()).getSeconds()));
 
