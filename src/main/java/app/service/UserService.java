@@ -26,6 +26,10 @@ public class UserService {
         return userList.get(userList.size()-1);
     }
 
+    public void submitUser(User nowUser) {
+        usermapper.insert(nowUser);
+    }
+
 
 
 

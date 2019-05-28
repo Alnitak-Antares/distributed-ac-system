@@ -27,7 +27,8 @@ url: /admin/powerOn
 methon:GET
 body:
 无
-response: 可忽略
+response: (可忽略)
+READY
 ```
 二、设置参数
 ```http
@@ -50,7 +51,8 @@ url: /admin/startup
 methon:GET
 body:
 无
-response: 可忽略
+response: (可忽略)
+ON
 ```
 四、监视房间状态
 ```http
@@ -58,16 +60,16 @@ url: /admin/roomState/{roomID}   //{roomID}字段直接替换为0～3之间的�
 methon:GET
 body:
 无
-response: 
+response: (json格式)
 {
-boolean isPowerOn;      //是否开机
-boolean isInService;    //是否服务
-double nowTemp;            //当前室温
-int tarTemp;
-String funSpeed;
-double feeRate;
-double totalFee;
-int runningTime;    //单位为秒
+    "nowTemp": 0,				//当前室温
+    "tarTemp": 0,
+    "funSpeed": "OFF",
+    "feeRate": 0,
+    "totalFee": 0,
+    "runningTime": 0,			//单位为秒
+    "inService": false,			//是否服务
+    "powerOn": false			//是否开机
 }
 ```
 ## 前台页面
@@ -75,10 +77,13 @@ int runningTime;    //单位为秒
 一、给用户办理入住，包括
 1. 查找空房
 2. 如果有空房给用户创建账号，并初始化账单
+二、退房
+前台给系统房间号，系统进行退房的处理，如果退房成功返回"success"，否则返回"error"
 
-二、查询详单
+只有退房后才能进行查询账单服务。
+三、查询详单
 详单=每次服务对象的记录，
-三、查询账单
+四、查询账单
 账单=本次房客需要支付的钱。
 四、退房
 停止房间的账单计费
@@ -92,55 +97,85 @@ methon:post
 body:
 phoneNumber : xxxxxxx     //我想的是手机号码作为顾客的登陆账号，或者是身份证都行
 response:（json格式）
-{ ["userid" : "xxxxx",
-"username" : "xxxxx",
-"password" : "xxxxx",
-"roomid" : "xxxxx",]}
-二、请求详单
+{
+    "userid": null,     //这个userid是没用的……
+    "username": "211376",
+    "password": "8728",
+    "roomid": 1             //房间id
+}
+二、办理退房
+```
+url: /receptionist/checkout
+method: get
+body:
+roomid : xx
+response:（json格式）
+
+三、请求详单
+```
 url: /receptionist/createrdr
 methon:get
 body:
 roomid : xxxxx
-starttime : "yyyy-mm-dd hh:mm:ss"     //格式严格
-stoptime : "yyyy-mm-dd hh:mm:ss"
+starttime : "yyyy-mm-ddThh:mm:ss"      //格式严格,字符T表示一个分割，这是java默认的格式
+stoptime : "yyyy-mm-ddThh:mm:ss"
 response:（json格式）
-{ [servicedetailid" : "xxxxx" ,
-starttime" : "xxxxx" ,
-stoptime" : "xxxxx" ,
-roomid" : "xxxxx" ,
-funspeed" : "xxxxx" ,
-feerate" : "xxxxx" ,
-fee" : "xxxxx" ],
-[ ..........]
+{
+    "serviceDetailList": [
+        {
+            "servicedetailid": 1,
+            "starttime": "2019-01-01T01:00:00",
+            "stoptime": "2019-01-01T01:00:00",
+            "roomid": 1,
+            "funspeed": "3",
+            "feerate": 4,
+            "fee": 5
+        },
+        {
+            "servicedetailid": 2,
+            "starttime": "2019-01-01T01:00:00",
+            "stoptime": "2019-01-01T01:00:00",
+            "roomid": 1,
+            "funspeed": "7",
+            "feerate": 8,
+            "fee": 9
+        }
+    ]
 }
 ```
-三、请求账单
-```http
+四、请求账单
+​```http
 url: /receptionist/createinvoice
 methon:get
 body:
 roomid : xxxxx
-starttime : "yyyy-mm-dd hh:mm:ss"     //格式严格
-stoptime : "yyyy-mm-dd hh:mm:ss"
+starttime : "yyyy-mm-ddThh:mm:ss"     //格式严格,字符T表示一个分割，这是java默认的格式
+stoptime : "yyyy-mm-ddThh:mm:ss"
 response:（json格式）
-["billid" : xxxxx ,
-"starttime" : xxxxx,
-"stoptime" : xxxxx,
-"roomid" : xxxxx,
-"userid" : xxxxx,
-"totalfee" : xxxxx,
-"runningtime" : xxxxx
-"schedulecounter" : xxxxx,
-"detailedrecordcounter" : xxxxx,
-"poweroncounter" : xxxxx,
-"changetempcounter" : xxxxx,
-"changefuncounter" : xxxxx]
+{
+    "billid": 1,
+    "starttime": "2019-01-01T01:00:00",
+    "stoptime": "2019-01-01T01:00:00",
+    "roomid": 1,
+    "userid": 1,
+    "totalfee": 2,
+    "runningtime": 3,
+    "schedulecounter": 4,
+    "detailedrecordcounter": 5,
+    "poweroncounter": 6,
+    "changetempcounter": 7,
+    "changefuncounter": 8
+}
 ```
 四、退房
 //Word In Progress
 ## 经理页面
 ### 页面功能
 经理的功能是查看报表。报表=房间的账单的统计信息。
+说明：输入的时间为查询的日期
+当选择日报时只返回日期对应的报表，
+当选择月报时返回日期对应的月份的报表
+当选择年报时返回日期对应的年份的报表
 ### 前后端接口及数据通信格式
 ```http
 url:/manager/queryreport

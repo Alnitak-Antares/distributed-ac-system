@@ -15,6 +15,7 @@ public class Room {
         this.nowTemp = nowTemp;
         this.isPowerOn = false;
         this.isInService = false;
+        this.isCheckIn = false;
         this.funSpeed = "OFF";
         this.startTime = LocalDateTime.now();
 
@@ -23,6 +24,15 @@ public class Room {
     public void clear() {
         this.isPowerOn = false;
         this.isInService = false;
+    }
+
+    public void init(LocalDateTime nowtime) {
+        this.nowTemp = nowTemp;
+        this.isPowerOn = false;
+        this.isInService = false;
+        this.funSpeed = "OFF";
+        this.startTime = nowtime;
+        this.isCheckIn = true;
     }
 
     public double getNowTemp() {

@@ -12,8 +12,8 @@ create table User
 
 create table Bill(
   billId int auto_increment primary key,
-  startTime varchar(20),
-  stopTime varchar(20),
+  startTime varchar(40),
+  stopTime varchar(40),
   roomId int,
   userId int,
   totalFee double(10,2),
@@ -28,8 +28,8 @@ create table Bill(
 
 create table ServiceDetail(
   serviceDetailId int auto_increment primary key,
-  startTime varchar(20),
-  stopTime varchar(20),
+  startTime varchar(40),
+  stopTime varchar(40),
   roomId int,
   userId int,
   funSpeed varchar(20),

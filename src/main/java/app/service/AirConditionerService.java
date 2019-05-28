@@ -38,7 +38,7 @@ public class AirConditionerService {
         runningList = Collections.synchronizedList(new ArrayList<Service>());
         roomList = Collections.synchronizedList(new ArrayList<Room>());
         billList = Collections.synchronizedList(new ArrayList<bill>());
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i <= 4; i++) {
             roomList.add(new Room(acParams.getDefaultRoomTemp()));
             billList.add(new bill(i));
         }
@@ -178,14 +178,14 @@ public class AirConditionerService {
     //前台服务人员办理入住
     public User checkInCustom(String phoneNumber) {
         LocalDateTime nowtime=LocalDateTime.now();
-        for(int indexRoom=0;indexRoom<4;indexRoom++) {
+        for(int indexRoom=1;indexRoom<=4;indexRoom++) {
             Room nowRoom = roomList.get(indexRoom);
             if (!nowRoom.isCheckIn()) {
                 User nowuser = new User();
                 nowuser.setRoomid(indexRoom);
                 nowuser.setUsername(phoneNumber);
                 nowuser.setPassword(createRandomNumber(4));
-                nowRoom.setStartTime(nowtime);
+                nowRoom.init(nowtime);
                 billService.initBill(billList.get(indexRoom),nowtime.toString(),nowuser);
                 return nowuser;
             }
@@ -207,7 +207,7 @@ public class AirConditionerService {
         Room nowRoom=roomList.get(roomId);
         bill nowBill=billList.get(roomId);
         if (nowRoom==null) return "Error";
-        if (nowRoom.isCheckIn()) return "Error";
+        if (!nowRoom.isCheckIn()) return "Error";
         if (nowRoom.isPowerOn()) {
             requestPowerOff(roomId);
         }

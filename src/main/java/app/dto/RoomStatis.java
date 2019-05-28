@@ -13,7 +13,6 @@ public class RoomStatis {
     private Integer changefuncounter;
 
     public void addBill(bill nowBill) {
-        this.changefuncounter+=nowBill.getChangefuncounter();
         this.totalfee+=nowBill.getTotalfee();
         this.runningtime+=nowBill.getRunningtime();
         this.scheduleCounter+=nowBill.getSchedulecounter();

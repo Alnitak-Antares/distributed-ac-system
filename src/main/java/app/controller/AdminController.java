@@ -16,6 +16,8 @@ public class AdminController {
     @Autowired
     AirConditionerService acService;
 
+    //finish test by postman
+    //response :READY
     @GetMapping(value = "/powerOn")
     public String powerOn() {
         acParams.setSystemState("READY");
@@ -44,6 +46,9 @@ public class AdminController {
         return acParams;
     }
 
+
+    //finish test by postman
+    //response :READY
     @GetMapping(value = "/startup")
     public String startup() {
         acParams.setSystemState("ON");
@@ -51,6 +56,7 @@ public class AdminController {
         return acParams.getSystemState();
     }
 
+    //finish test by postman
     @GetMapping(value = "/roomState/{roomID}")
     public RoomState checkRoomState(@PathVariable int roomID) {
         return acService.checkRoomState(roomID);
