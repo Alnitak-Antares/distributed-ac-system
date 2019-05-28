@@ -23,12 +23,13 @@ public class BillService {
                 nowBill.getTotalfee()+nowServ.getCurrentFee());
         nowBill.setRunningtime(nowBill.getRunningtime()+
                 (int)(java.time.Duration.between(nowServ.getStartTime(), LocalDateTime.now()).getSeconds()));
-
-    }
-    public void addTempCounter(bill nowBill, Service nowServ) {
-        addRunningService(nowBill,nowServ);
         nowBill.setDetailedrecordcounter(
                 nowBill.getDetailedrecordcounter()+1);
+    }
+    public void addTempCounter(bill nowBill, Service nowServ) {
+        nowBill.setChangetempcounter(
+                nowBill.getChangetempcounter()+1);
+        addRunningService(nowBill,nowServ);
         /*如果需要每次都更新数据库的话
            billmapper.updateByPrimaryKeySelective(nowBill);
          */
@@ -37,8 +38,8 @@ public class BillService {
 
     public void addFunCounter(bill nowBill, Service nowServ) {
         addRunningService(nowBill,nowServ);
-        nowBill.setDetailedrecordcounter(
-                nowBill.getDetailedrecordcounter()+1);
+        nowBill.setChangefuncounter(
+                nowBill.getChangefuncounter()+1);
 
         /* billmapper.updateByPrimaryKeySelective(nowBill);*/
     }

@@ -44,6 +44,7 @@ public class LoginController {
 //    }
     @RequestMapping("/userView/{roomid}")
     public String userLoginView(){
+
         return "../user.html";
     }
 

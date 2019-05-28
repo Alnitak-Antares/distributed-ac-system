@@ -252,6 +252,8 @@ methon:POST
 body: 
 (value="roomID") int )
 response: 可忽略
+"success"
+or "Error: It's powerOn."
 ```
 二、关空调
 ```
@@ -261,6 +263,8 @@ methon:POST
 body: 
 (value="roomID") int )
 response: 可忽略
+"success"
+or "Error: It's powerOff."
 ```
 三、获取房间状态信息
 ```

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Controller
 public class WelcomeController {
-    @GetMapping("/html")
+    @GetMapping("/")
     String welcome() {
         LocalDateTime nowtime=LocalDateTime.now();
         System.out.println(nowtime.toString());

@@ -12,14 +12,16 @@ public class CustomerController {
     @Autowired
     AirConditionerService acService;
 
+
     @PostMapping("/requestOn")
-    public void requestOn(@RequestParam(value="roomID") int roomID) {
-        acService.requestPowerOn(roomID);
+    public String requestOn(@RequestParam(value="roomID") int roomID) {
+        return acService.requestPowerOn(roomID);
     }
 
     @PostMapping("/requestOff")
-    public void requestOff(@RequestParam(value="roomID") int roomID) {
-        acService.requestPowerOff(roomID);
+    public String requestOff(@RequestParam(value="roomID") int roomID) {
+        System.out.println("==========[Debug]:/customer/requestOff======");
+        return acService.requestPowerOff(roomID);
     }
 
     @GetMapping("/requestRoomState")
