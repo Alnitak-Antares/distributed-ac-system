@@ -21,17 +21,17 @@ public class ServiceDetailService {
     @Autowired
     private serviceDetailMapper servicedetailmapper;
 
-    private String trDateToStr(LocalDateTime date) {
-        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                .format(date);
-    }
+//    private String trDateToStr(LocalDateTime date) {
+//        return DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm:ss")
+//                .format(date);
+//    }
     public serviceDetail trServiceToDetail(Service nowService) {
         serviceDetail nowDetail=new serviceDetail();
         nowDetail.setFee(nowService.getCurrentFee());
         nowDetail.setFunspeed(nowService.getFunSpeed());
         nowDetail.setRoomid(nowService.getRoomId());
-        nowDetail.setStarttime(trDateToStr(nowService.getStartTime()));
-        nowDetail.setStoptime(trDateToStr(LocalDateTime.now()));
+        nowDetail.setStarttime(nowService.getStartTime().toString());
+        nowDetail.setStoptime(LocalDateTime.now().toString() );
         nowDetail.setFeerate(nowService.getFeeRate());
         nowDetail.setServicedetailid(0);
         return nowDetail;

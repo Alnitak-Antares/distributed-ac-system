@@ -68,6 +68,14 @@ public class AirConditionerService {
         }
     }
 
+    //===========================================================
+    //=====房客==================================================
+    //=========================================================
+
+    //----------------------------------------------------------
+    /*房客请求打开空调
+      说明：
+     */
     public void requestPowerOn(int roomId) {
         if (roomList.get(roomId).isPowerOn()) return;
         roomList.get(roomId).setPowerOn(true);
@@ -79,7 +87,9 @@ public class AirConditionerService {
         billList.get(roomId).setStarttime(LocalDateTime.now().toString());
 
     }
-    //调节温度
+    //--------------------------------------------------------
+    //房客请求调节温度
+    // 说明：
     public void changeTargetTemp(int roomId, int tarTemp) {
 
         //service持久化 当前时间：LocalDateTime.now()
@@ -96,7 +106,9 @@ public class AirConditionerService {
         serv.setStartTime(LocalDateTime.now());
     }
 
-    //调节风速
+    //---------------------------------------------------------
+    // 房客请求调节风速
+    // 说明：
     public void changeFanSpeed(int roomId, String funSpeed) {
 
         Service serv = findRoomService(roomId);
@@ -113,21 +125,31 @@ public class AirConditionerService {
         serv.setStartTime(LocalDateTime.now());
     }
 
-    //关机
+    /*-----------------------------------------------------------
+       房客请求关机：
+     */
     public void requestPowerOff(int roomId) {
         Service serv = findRoomService(roomId);
         serviceDetailService.sumbitDetail(serv);
-        billService.submitBill(billList.get(roomId));
+        billService.addRunningService(billList.get(roomId),serv);
+       // billService.submitBill(billList.get(roomId));
 
         deleteRoomService(roomId);
         roomList.get(roomId).clear();
 
     }
 
+    //-------------------------------------------------------------
+    // 房客请求查询费用
     public double requestFee(int roomId) {
         return billList.get(roomId).getTotalfee();
     }
 
+    //=================================================
+    //=====管理员========================================
+    //==================================================
+
+    //--------------------------------------------------
     //管理员监视房间
     public RoomState checkRoomState(int roomId) {
         Service serv = findRoomService(roomId);
@@ -148,6 +170,11 @@ public class AirConditionerService {
         return rs;
     }
 
+    /*=====================================================
+    =============前台服务人员================================
+    ========================================================
+     */
+    //-----------------------------------------------------
     //前台服务人员办理入住
     public User checkInCustom(String phoneNumber) {
         LocalDateTime nowtime=LocalDateTime.now();
@@ -159,7 +186,7 @@ public class AirConditionerService {
                 nowuser.setUsername(phoneNumber);
                 nowuser.setPassword(createRandomNumber(4));
                 nowRoom.setStartTime(nowtime);
-                billList.get(indexRoom).setStarttime(nowtime.toString());
+                billService.initBill(billList.get(indexRoom),nowtime.toString(),nowuser);
                 return nowuser;
             }
         }
@@ -173,6 +200,20 @@ public class AirConditionerService {
                 sb.append(rand.nextInt(10));
         return sb.toString();
     }
-    //
-
+    //-------------------------------------------------------------
+    //前台服务人员办理退房
+    public String checkOutCustom(int roomId) {
+        LocalDateTime nowtime=LocalDateTime.now();
+        Room nowRoom=roomList.get(roomId);
+        bill nowBill=billList.get(roomId);
+        if (nowRoom==null) return "Error";
+        if (nowRoom.isCheckIn()) return "Error";
+        if (nowRoom.isPowerOn()) {
+            requestPowerOff(roomId);
+        }
+        nowBill.setStoptime(nowtime.toString());
+        billService.submitBill(nowBill);
+        return "Success";
+    }
+    //---------------------------------------------------------
 }

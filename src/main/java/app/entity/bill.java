@@ -401,4 +401,20 @@ public class bill {
     public void setChangefuncounter(Integer changefuncounter) {
         this.changefuncounter = changefuncounter;
     }
+
+    public void init() {
+        billid=0;
+        starttime="";
+        stoptime="";
+        roomid=0;
+        userid=0;
+        totalfee=0.0;
+        runningtime=0;
+        schedulecounter=0;
+        detailedrecordcounter=0;
+        poweroncounter=0;
+        changetempcounter=0;
+        changefuncounter=0;
+    }
+
 }

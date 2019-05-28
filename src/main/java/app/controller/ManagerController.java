@@ -41,21 +41,21 @@ public class ManagerController {
         String year=request.getParameter("year");
         String month=request.getParameter("month");
         String day=request.getParameter("day");
-        String stopTime=year+"-"+month+"-"+day+" "+"23:59:59";
+        String stopTime=year+"-"+month+"-"+day+"T"+"23:59:59";
         String startTime="0000-00-00";
         switch (typeReport) {
-            case 0:startTime=year+"-"+month+"-"+day+" "+"00:00:00";break;
+            case 0:startTime=year+"-"+month+"-"+day+"T"+"00:00:00";break;
             case 1:
                 if (month.equals("01")) {
                     year=String.format("%04d",Integer.valueOf(year)-1);
                     month="12";
                 }
                 else month=String.format("%02d",Integer.valueOf(month)-1);
-                startTime=year+"-"+month+"-"+day+" "+"00:00:00";
+                startTime=year+"-"+month+"-"+day+"T"+"00:00:00";
                 break;
             case 2:
                 year=String.format("%04d",Integer.valueOf(year)-1);
-                startTime=year+"-"+month+"-"+day+" "+"00:00:00";
+                startTime=year+"-"+month+"-"+day+"T"+"00:00:00";
                 break;
         }
         //debug output

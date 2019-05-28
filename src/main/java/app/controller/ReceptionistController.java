@@ -5,10 +5,7 @@ import app.dto.AirConditionerParams;
 import app.dto.DetailRecord;
 import app.entity.User;
 import app.entity.bill;
-import app.service.AirConditionerService;
-import app.service.BillService;
-import app.service.ManagerService;
-import app.service.ServiceDetailService;
+import app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +22,8 @@ public class ReceptionistController {
     private ServiceDetailService serviceDetailService;
     @Autowired
     private BillService billService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/adduser")
     /*  接收参数 房客的手机号码
@@ -34,6 +33,15 @@ public class ReceptionistController {
         //前台增加用户，需要房客的手机号码，返回房客房间空调系统的密码
         //如果房间满，返回空对象
         return airConditionerService.checkInCustom(phoneNumber);
+    }
+
+    @PostMapping("/checkout")
+    /* 接收参数 房间id
+        返回参数 执行结果?"success":"error".
+     */
+    public String checkOutCustomer(@RequestParam(value="username") String username) {
+        User nowUser=userService.selectByUsername(username);
+        return airConditionerService.checkOutCustom(nowUser.getRoomid());
     }
 
     @GetMapping("/createrdr")

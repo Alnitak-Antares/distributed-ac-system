@@ -3,10 +3,7 @@ package app.service;
 import app.dao.billMapper;
 import app.dto.DetailRecord;
 import app.dto.Service;
-import app.entity.bill;
-import app.entity.billExample;
-import app.entity.serviceDetail;
-import app.entity.serviceDetailExample;
+import app.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -17,16 +14,21 @@ public class BillService {
     @Autowired
     private billMapper billmapper;
 
-    public void addTempCounter(bill nowBill, Service nowServ) {
+
+    //把服务的信息加到账单里面
+    public void addRunningService(bill nowBill,Service nowServ) {
         nowBill.setChangetempcounter(
                 nowBill.getChangetempcounter()+1);
         nowBill.setTotalfee(
                 nowBill.getBillid()+nowServ.getCurrentFee());
         nowBill.setRunningtime(nowBill.getRunningtime()+
                 (int)(java.time.Duration.between(nowServ.getStartTime(), LocalDateTime.now()).getSeconds()));
+
+    }
+    public void addTempCounter(bill nowBill, Service nowServ) {
+        addRunningService(nowBill,nowServ);
         nowBill.setDetailedrecordcounter(
                 nowBill.getDetailedrecordcounter()+1);
-
         /*如果需要每次都更新数据库的话
            billmapper.updateByPrimaryKeySelective(nowBill);
          */
@@ -34,11 +36,7 @@ public class BillService {
     }
 
     public void addFunCounter(bill nowBill, Service nowServ) {
-        nowBill.setChangefuncounter(nowBill.getChangefuncounter()+1);
-        nowBill.setTotalfee(
-                nowBill.getBillid()+nowServ.getCurrentFee());
-        nowBill.setRunningtime(nowBill.getRunningtime()+
-                (int)((long)java.time.Duration.between(nowServ.getStartTime(), LocalDateTime.now()).getSeconds()));
+        addRunningService(nowBill,nowServ);
         nowBill.setDetailedrecordcounter(
                 nowBill.getDetailedrecordcounter()+1);
 
@@ -53,8 +51,7 @@ public class BillService {
 
 
     public void submitBill(bill nowBill) {
-
-
+        billmapper.insert(nowBill);
     }
 
     public bill selectByRoomIdAndTime(int roomId
@@ -70,6 +67,14 @@ public class BillService {
         if (billList.size()>0)
             return billList.get(billList.size()-1);
         return null;
+    }
+
+    public void initBill(bill nowBill, String startTime, User nowUser) {
+        nowBill.init();
+        nowBill.setRoomid(nowUser.getRoomid());
+        nowBill.setUserid(nowUser.getUserid());
+        nowBill.setStarttime(startTime);
+
     }
 
    /* public void addTempCounter(bill nowBill) {
