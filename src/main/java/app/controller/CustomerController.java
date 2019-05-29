@@ -15,6 +15,7 @@ public class CustomerController {
 
     @PostMapping("/requestOn")
     public String requestOn(@RequestParam(value="roomID") int roomID) {
+        System.out.println("=============[Debug]:/customr/requsetOn====");
         return acService.requestPowerOn(roomID);
     }
 
@@ -26,16 +27,19 @@ public class CustomerController {
 
     @GetMapping("/requestRoomState")
     public RoomState requestRoomState(@RequestParam(value="roomID") int roomID) {
+        System.out.println("=========[Debug]:/customer/requestRoomState====");
         return acService.checkRoomState(roomID);
     }
 
     @PostMapping("/changeTargetTemp")
     public void changeTargetTemp(@RequestParam(value="roomID") int roomID, @RequestParam(value="targetTemp") int targetTemp) {
+        System.out.println("============[Debug]:/customer/changeTargetTemp====");
         acService.changeTargetTemp(roomID, targetTemp);
     }
 
     @PostMapping("/changeFanSpeed")
     public void changeTargetFunSpeed(@RequestParam(value="roomID") int roomID, @RequestParam(value="targetFanSpeed") String targetFanSpeed) {
+        System.out.println("===========[Debug]:/customer/chageFanSpeed=======");
         acService.changeFanSpeed(roomID, targetFanSpeed);
     }
 }

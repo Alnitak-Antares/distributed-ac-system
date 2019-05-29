@@ -58,13 +58,19 @@ public class AirConditionerService {
 
 
     private void deleteRoomService(int roomId) {
+        System.out.println(runningList.size()+" "+waitingList.size());
+        System.out.println("Find:Roomid="+roomId);
         for (Service s: runningList) {
-            if(s.getRoomId() == roomId)
+            if(s.getRoomId() == roomId) {
                 runningList.remove(s);
+                break;
+            }
         }
         for (Service s: waitingList) {
-            if(s.getRoomId() == roomId)
+            if(s.getRoomId() == roomId) {
                 waitingList.remove(s);
+                break;
+            }
         }
     }
 
@@ -76,16 +82,20 @@ public class AirConditionerService {
     /*房客请求打开空调
       说明：
      */
-    public void requestPowerOn(int roomId) {
-        if (roomList.get(roomId).isPowerOn()) return;
+    public String requestPowerOn(int roomId) {
+        if (roomList.get(roomId).isPowerOn()) return "Error: It's powerOn.";
         roomList.get(roomId).setPowerOn(true);
         billService.addPowerOn(billList.get(roomId));
 
-        Service service = new Service(roomId, acParams.getDefaultTargetTemp(), acParams.getDefaultFunSpeed(), LocalDateTime.now(), acParams.getDefaultFeeRate());
+        Service service = new Service(roomId,
+                acParams.getDefaultTargetTemp(),
+                acParams.getDefaultFunSpeed(),
+                LocalDateTime.now(),
+                acParams.getDefaultFeeRate());
         waitingList.add(service);
 
         billList.get(roomId).setStarttime(LocalDateTime.now().toString());
-
+        return "success";
     }
     //--------------------------------------------------------
     //房客请求调节温度
@@ -116,8 +126,9 @@ public class AirConditionerService {
 
         if (runningList.contains(serv))
             serviceDetailService.sumbitDetail(serv);
-        //增加bill中的更改风速计数器
 
+        //计数器是计数器，账单是账单
+        //增加bill中的更改风速计数器
         billService.addFunCounter(billList.get(roomId),serv);
 
         serv.setFunSpeed(funSpeed);
@@ -128,7 +139,8 @@ public class AirConditionerService {
     /*-----------------------------------------------------------
        房客请求关机：
      */
-    public void requestPowerOff(int roomId) {
+    public String requestPowerOff(int roomId) {
+        if (!(roomList.get(roomId)).isPowerOn()) return "Error: It's powerOff.";
         Service serv = findRoomService(roomId);
         serviceDetailService.sumbitDetail(serv);
         billService.addRunningService(billList.get(roomId),serv);
@@ -136,7 +148,7 @@ public class AirConditionerService {
 
         deleteRoomService(roomId);
         roomList.get(roomId).clear();
-
+        return "success";
     }
 
     //-------------------------------------------------------------
@@ -217,4 +229,6 @@ public class AirConditionerService {
         return "Success";
     }
     //---------------------------------------------------------
+
+
 }

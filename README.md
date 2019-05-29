@@ -108,7 +108,7 @@ response: (json格式)
 url: /receptionist/adduser
 methon:post
 body:
-phoneNumber : xxxxxxx     //我想的是手机号码作为顾客的登陆账号，或者是身份证都行
+idnumber : xxxxxxx     //我想的是手机号码作为顾客的登陆账号，或者是身份证都行
 response:（json格式）
 {
     "userid": null,     //这个userid是没用的……
