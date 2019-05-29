@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,6 +31,8 @@ public class AirConditionerService {
     @Autowired
     private BillService billService;
 
+    private boolean isSystemStartup=false;
+
     @Autowired
     private ServiceDetailService serviceDetailService;
 
@@ -42,6 +45,7 @@ public class AirConditionerService {
             roomList.add(new Room(acParams.getDefaultRoomTemp()));
             billList.add(new bill(i));
         }
+        isSystemStartup=true;
     }
 
     private Service findRoomService(int roomId) {
@@ -104,11 +108,13 @@ public class AirConditionerService {
 
         //service持久化 当前时间：LocalDateTime.now()
         Service serv = findRoomService(roomId);
-        if (runningList.contains(serv))
+        if (runningList.contains(serv)) {
             serviceDetailService.sumbitDetail(serv);
+            billService.addRunningService(billList.get(roomId), serv);
+        }
 
         //增加bill中的更改温度计数器
-        billService.addTempCounter(billList.get(roomId),serv);
+        billService.addTempCounter(billList.get(roomId));
 
 
         serv.setTarTemp(tarTemp);
@@ -124,12 +130,13 @@ public class AirConditionerService {
         Service serv = findRoomService(roomId);
         //service持久化 当前时间：LocalDateTime.now()
 
-        if (runningList.contains(serv))
+        if (runningList.contains(serv)) {
             serviceDetailService.sumbitDetail(serv);
-
+            billService.addRunningService(billList.get(roomId), serv);
+        }
         //计数器是计数器，账单是账单
         //增加bill中的更改风速计数器
-        billService.addFunCounter(billList.get(roomId),serv);
+        billService.addFunCounter(billList.get(roomId));
 
         serv.setFunSpeed(funSpeed);
         serv.setFeeRate(acParams.getFeeRateByFunSpeed(funSpeed));
@@ -229,6 +236,136 @@ public class AirConditionerService {
         return "Success";
     }
     //---------------------------------------------------------
+    //---------------------------------------------------------
+    //调度模块
 
+    private void startService(Service serv) {
+        int roomId = serv.getRoomId();
+        serv.setStartTime(LocalDateTime.now());
+        roomList.get(roomId).setInService(true);
+        //To-do bill里面调度计数+1 --finish
+        billService.addRunningCounter(billList.get(roomId));
+        runningList.add(serv);
+    }
+
+    private void freeService(Service serv) {
+        int roomId = serv.getRoomId();
+        //To-do 当前服务对象写入详单
+        serviceDetailService.sumbitDetail(serv);
+        //To-do bill里面调度计数+1 --finish
+        billService.addRunningCounter(billList.get(roomId));
+        serv.setStartTime(LocalDateTime.now());
+        serv.setCurrentFee(0);
+        roomList.get(roomId).setInService(false);
+        runningList.remove(serv);
+        waitingList.add(serv);
+    }
+    private String getLowestRunningFanSpeed() {
+        for (Service s:runningList) {
+            if(s.getFunSpeed().equals("HIGH"))
+                return "HIGH";
+        }
+        for (Service s:runningList) {
+            if(s.getFunSpeed().equals("MIDDLE"))
+                return "MIDDLE";
+        }
+        for (Service s:runningList) {
+            if(s.getFunSpeed().equals("LOW"))
+                return "LOW";
+        }
+        return "OFF";
+    }
+
+    private int compareFanSpeed(String speed1, String speed2) {
+        //两个风速 "LOW", "MIDDLE", "HIGH", 比较他们的概念上的大小
+        //speed1 大于|等于|小于 speed2 分别返回 1|0|-1
+        //注意java字符串比较要用equals()函数
+        Integer spe1=0,spe2=0;
+        switch (speed1) {
+            case "Low":spe1=1;break;
+            case "MIDDLE":spe1=2;break;
+            case "HIGH":spe1=3;break;
+        }
+        switch (speed2) {
+            case "Low":spe2=1;break;
+            case "MIDDLE":spe2=2;break;
+            case "HIGH":spe2=3;break;
+        }
+        return spe1.equals(spe2)?0:(spe1>spe2?1:-1);
+    }
+
+    //获取运行队列中风速最小且服务时间最长的服务对象
+    private Service getLongestRunningServiceWithLowestFanSpeed() {
+        if (runningList.size()==0) return null;
+        Service lowestService=runningList.get(0);
+        for(Service nowService:runningList) {
+            int nowPrior=compareFanSpeed(nowService.getFunSpeed()
+                    ,lowestService.getFunSpeed());
+            if (nowPrior==1) continue;
+            if (nowPrior==-1) {
+                lowestService=nowService;
+            }
+            else {
+                if (nowService.getStartTime().isBefore(lowestService.getStartTime())) {
+                    lowestService = nowService;
+                }
+            }
+        }
+        return lowestService;
+    }
+
+    //调度器
+    @Scheduled(fixedRate = 1000)
+    private void schedule() {
+        if (!isSystemStartup) return;
+        while(waitingList.size() > 0 && runningList.size() < 3)
+            startService(waitingList.remove(0));
+
+        if(waitingList.size() == 0)
+            return;
+
+        Service waitingServ = waitingList.get(0);
+        String minFanSpeed = getLowestRunningFanSpeed();
+        String waitingFanSpeed = waitingServ.getFunSpeed();
+        //首先进行优先级调度
+        //等待中的服务对象的风速最小
+        if(compareFanSpeed(waitingFanSpeed, minFanSpeed) < 0)
+            return;
+        //等待中的服务对象风速比当前服务队列中最小风速大
+        else if(compareFanSpeed(waitingFanSpeed, minFanSpeed) > 0) {
+            Service toFree = getLongestRunningServiceWithLowestFanSpeed();
+            freeService(toFree);
+            startService(waitingServ);
+            waitingList.remove(0);
+        }
+        //等待中风速与当前服务队列中最小风速相等
+        else {
+            int secInterval = (int) Duration.between(waitingServ.getStartTime(), LocalDateTime.now()).getSeconds();
+            if(secInterval >= 120) {
+                //等待时长超过两分钟
+                Service toFree = getLongestRunningServiceWithLowestFanSpeed();
+                freeService(toFree);
+                startService(waitingServ);
+                waitingList.remove(0);
+            }
+        }
+    }
+
+    //记账模块，定时更新费用、运行时间
+    @Scheduled(fixedRate = 1000)
+    private void billing() {
+        if (!isSystemStartup) return;
+        //只需要增加服务细节类的费用
+        for(Service nowServ:runningList) {
+            nowServ.setCurrentFee(nowServ.getFeeRate()
+                    +nowServ.getCurrentFee());
+        }
+    //账单的计时是在退房后，统计所有服务细节的对象直接得到。
+        //   for(int indexRoom=1;indexRoom<=4;indexRoom++) {
+     //       if (!(roomList.get(indexRoom)).isCheckIn()) continue;
+     //       billList.get(indexRoom).setRunningtime(
+     //               billList.get(indexRoom).getRunningtime()+1);
+     //   }
+    }
 
 }

@@ -17,8 +17,6 @@ public class BillService {
 
     //把服务的信息加到账单里面
     public void addRunningService(bill nowBill,Service nowServ) {
-        nowBill.setChangetempcounter(
-                nowBill.getChangetempcounter()+1);
         nowBill.setTotalfee(
                 nowBill.getTotalfee()+nowServ.getCurrentFee());
         nowBill.setRunningtime(nowBill.getRunningtime()+
@@ -26,22 +24,26 @@ public class BillService {
         nowBill.setDetailedrecordcounter(
                 nowBill.getDetailedrecordcounter()+1);
     }
-    public void addTempCounter(bill nowBill, Service nowServ) {
+    public void addTempCounter(bill nowBill) {
         nowBill.setChangetempcounter(
                 nowBill.getChangetempcounter()+1);
-        addRunningService(nowBill,nowServ);
+      //  addRunningService(nowBill,nowServ);
         /*如果需要每次都更新数据库的话
            billmapper.updateByPrimaryKeySelective(nowBill);
          */
 
     }
 
-    public void addFunCounter(bill nowBill, Service nowServ) {
-        addRunningService(nowBill,nowServ);
+    public void addFunCounter(bill nowBill) {
+     //   addRunningService(nowBill,nowServ);
         nowBill.setChangefuncounter(
                 nowBill.getChangefuncounter()+1);
 
         /* billmapper.updateByPrimaryKeySelective(nowBill);*/
+    }
+
+    public void addRunningCounter(bill nowBill) {
+        nowBill.setSchedulecounter(nowBill.getSchedulecounter()+1);
     }
 
     public void addPowerOn(bill nowBill){
