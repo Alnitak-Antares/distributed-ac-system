@@ -90,7 +90,7 @@ public class AirConditionerService {
         if (roomList.get(roomId).isPowerOn()) return "Error: It's powerOn.";
         roomList.get(roomId).setPowerOn(true);
         billService.addPowerOn(billList.get(roomId));
-        roomList.get(roomId).setFunSpeed(acParams.getDefaultFunSpeed());
+        roomList.get(roomId).setLastFanSpeed(acParams.getDefaultFunSpeed());
         Service service = new Service(roomId,
                 acParams.getDefaultTargetTemp(),
                 acParams.getDefaultFunSpeed(),
@@ -156,12 +156,6 @@ public class AirConditionerService {
         deleteRoomService(roomId);
         roomList.get(roomId).clear();
         return "success";
-    }
-
-    //-------------------------------------------------------------
-    // 房客请求查询费用
-    public double requestFee(int roomId) {
-        return billList.get(roomId).getTotalfee();
     }
 
     //=================================================
@@ -279,16 +273,15 @@ public class AirConditionerService {
     private int compareFanSpeed(String speed1, String speed2) {
         //两个风速 "LOW", "MIDDLE", "HIGH", 比较他们的概念上的大小
         //speed1 大于|等于|小于 speed2 分别返回 1|0|-1
-        //TODO 这里还有OFF的逻辑
         //注意java字符串比较要用equals()函数
         Integer spe1=0,spe2=0;
         switch (speed1) {
-            case "Low":spe1=1;break;
+            case "LOW":spe1=1;break;
             case "MIDDLE":spe1=2;break;
             case "HIGH":spe1=3;break;
         }
         switch (speed2) {
-            case "Low":spe2=1;break;
+            case "LOW":spe2=1;break;
             case "MIDDLE":spe2=2;break;
             case "HIGH":spe2=3;break;
         }
@@ -318,13 +311,18 @@ public class AirConditionerService {
     //调度器
     @Scheduled(fixedRate = 1000)
     private void schedule() {
-        /*
-            TODO : 到达目标温度后没有把runningServer去掉
-         */
         if (acParams.getSystemState()==null) return;
         if (!(acParams.getSystemState().equals("ON"))) return;
         System.out.println("==============[Debug]:schedule=======");
         System.out.println(waitingList.size()+" "+runningList.size());
+
+        for (Service serv: runningList) {
+            Room room = roomList.get(serv.getRoomId());
+            if (Math.abs(serv.getTarTemp() - room.getNowTemp()) < 1e-4) {
+                room.setInService(false);
+                //TODO: 到达目标温度后去掉runningService（自动重启？）
+            }
+        }
         while(waitingList.size() > 0 && runningList.size() < 3)
             startService(waitingList.remove(0));
 
@@ -383,12 +381,12 @@ public class AirConditionerService {
         if (!(acParams.getSystemState().equals("ON"))) return;
         System.out.println("==============[Debug]:AutoChangeTemp=======");
         for(Room nowRoom:roomList) {
-            System.out.println(nowRoom.getNowTemp()+" "+nowRoom.getFunSpeed());
+            System.out.println(nowRoom.getNowTemp()+" "+nowRoom.getLastFanSpeed());
             double nowRoomTemp=nowRoom.getNowTemp();
             if (nowRoom.isInService()) {
                 if (nowRoomTemp<=acParams.getTempLowLimit()) continue;
-                switch (nowRoom.getFunSpeed()) {
-                    case "Low":nowRoom.setNowTemp(nowRoomTemp-0.1);break;
+                switch (nowRoom.getLastFanSpeed()) {    //FIXME: 通过service获取风速
+                    case "LOW":nowRoom.setNowTemp(nowRoomTemp-0.1);break;
                     case "MIDDLE":nowRoom.setNowTemp(nowRoomTemp-0.2);break;
                     case "HIGH":nowRoom.setNowTemp(nowRoomTemp-0.3);break;
                 }
