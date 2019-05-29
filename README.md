@@ -121,7 +121,7 @@ response:（json格式）
 二、办理退房
 ```
 url: /receptionist/checkout
-method: get
+method: post
 body:{
 	roomid : xx
 }
