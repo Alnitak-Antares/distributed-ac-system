@@ -90,7 +90,6 @@ public class AirConditionerService {
         if (roomList.get(roomId).isPowerOn()) return "Error: It's powerOn.";
         roomList.get(roomId).setPowerOn(true);
         billService.addPowerOn(billList.get(roomId));
-        roomList.get(roomId).setLastFanSpeed(acParams.getDefaultFunSpeed());
         Service service = new Service(roomId,
                 acParams.getDefaultTargetTemp(),
                 acParams.getDefaultFunSpeed(),
@@ -380,12 +379,17 @@ public class AirConditionerService {
         if (acParams.getSystemState()==null) return;
         if (!(acParams.getSystemState().equals("ON"))) return;
         System.out.println("==============[Debug]:AutoChangeTemp=======");
-        for(Room nowRoom:roomList) {
-            System.out.println(nowRoom.getNowTemp()+" "+nowRoom.getLastFanSpeed());
+        for(int i = 0; i < 4; i++) {
+            Room nowRoom = roomList.get(i);
+
+            System.out.println("当前温度："+nowRoom.getNowTemp());
+
             double nowRoomTemp=nowRoom.getNowTemp();
+
             if (nowRoom.isInService()) {
+                Service nowServ = findRoomService(i);
                 if (nowRoomTemp<=acParams.getTempLowLimit()) continue;
-                switch (nowRoom.getLastFanSpeed()) {    //FIXME: 通过service获取风速
+                switch (nowServ.getFunSpeed()) {
                     case "LOW":nowRoom.setNowTemp(nowRoomTemp-0.1);break;
                     case "MIDDLE":nowRoom.setNowTemp(nowRoomTemp-0.2);break;
                     case "HIGH":nowRoom.setNowTemp(nowRoomTemp-0.3);break;

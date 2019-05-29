@@ -56,7 +56,10 @@ public class ServiceDetailService {
         for(serviceDetail nowServ:serviceDetailList) {
             nowRecord.addServiceDetail(nowServ);
         }
-        return nowRecord;
+        if(nowRecord.getServiceDetailList().size() == 0)
+            return null;
+        else
+            return nowRecord;
     }
 
 

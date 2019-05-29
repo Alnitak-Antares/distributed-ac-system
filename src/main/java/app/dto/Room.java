@@ -27,7 +27,6 @@ public class Room {
     }
 
     public void init(LocalDateTime nowtime) {
-        this.nowTemp = nowTemp;
         this.isPowerOn = false;
         this.isInService = false;
         this.lastFanSpeed = "OFF";
