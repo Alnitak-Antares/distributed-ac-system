@@ -368,4 +368,21 @@ public class AirConditionerService {
      //   }
     }
 
+    //回温和降温模块，定时更新房间温度
+    @Scheduled(fixedRate = 1000)
+    private void timerToChangeRoomTemp() {
+        for(Room nowRoom:roomList) {
+            double nowRoomTemp=nowRoom.getNowTemp();
+            if (nowRoom.isInService()) {
+                switch (nowRoom.getFunSpeed()) {
+                    case "Low":nowRoom.setNowTemp(nowRoomTemp-0.1);break;
+                    case "MIDDLE":nowRoom.setNowTemp(nowRoomTemp-0.2);break;
+                    case "HIGH":nowRoom.setNowTemp(nowRoomTemp-0.3);break;
+                }
+            }
+            else {
+                nowRoom.setNowTemp(nowRoomTemp+0.1);
+            }
+        }
+    }
 }
