@@ -373,8 +373,6 @@ public class AirConditionerService {
     private void timerToChangeRoomTemp() {
         for(Room nowRoom:roomList) {
             double nowRoomTemp=nowRoom.getNowTemp();
-            if (nowRoomTemp<acParams.getTempLowLimit()) continue;
-            if (nowRoomTemp>acParams.getTempHighLimit()) continue;
             if (nowRoom.isInService()) {
                 switch (nowRoom.getFunSpeed()) {
                     case "Low":nowRoom.setNowTemp(nowRoomTemp-0.1);break;
