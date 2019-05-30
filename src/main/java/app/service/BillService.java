@@ -43,6 +43,7 @@ public class BillService {
     }
 
     public void addRunningCounter(bill nowBill) {
+
         nowBill.setSchedulecounter(nowBill.getSchedulecounter()+1);
     }
 

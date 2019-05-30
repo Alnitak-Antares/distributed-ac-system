@@ -256,7 +256,8 @@ public class AirConditionerService {
         serviceDetailService.sumbitDetail(serv);
 
         billService.addRunningCounter(billList.get(roomId));
-        //TODO 当前服务对象信息（运行时间，计费等）写入bill
+        billService.addRunningService(billList.get(roomId),serv);
+        //TODO 当前服务对象信息（运行时间，计费等）写入bill --finish
 
         serv.setStartTime(LocalDateTime.now());
         serv.setCurrentFee(0);
