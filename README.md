@@ -1,3 +1,25 @@
+## 部署手册
+
+### 关于环境
+#### Java环境
+JDK 1.8
+#### Mysql 8.0
+需要 connect J。如果使用了mysql的安装器的话就更新一下。
+创建一个连接，端口是3306（基本是默认的）
+然后账号密码设置
+~~~
+账号:root
+密码:mysqlmysql
+~~~
+创建一个schema，名字是"distributedairconditioner"
+然后执行"databasesTable.sql"
+#### 在ide中运行后端
+下载idea付费版，申请学生账号。
+在github上下载最新的代码，然后用idea打开这个文件夹（open->pom.xml)
+### 如果想跑起来
+1. 把自己编写的前端放到resoure文件下加（覆盖）
+2. 在idea中运行项目
+
 ## 登陆页面
 ### 页面功能
 网页端输入账号密码，服务器端进行验证并跳转。
