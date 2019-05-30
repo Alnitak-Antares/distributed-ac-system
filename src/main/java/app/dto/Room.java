@@ -3,6 +3,7 @@ package app.dto;
 import java.time.LocalDateTime;
 
 public class Room {
+    private int initTemp;    //设定的初始温度
     private double nowTemp;            //当前室温
     private int lastTarTemp;            //最后一次的目标温度
     private String lastFanSpeed;           //最后一次的目标风速
@@ -12,6 +13,7 @@ public class Room {
     private LocalDateTime startTime;         //入住时间
 
     public Room() {
+        this.initTemp = 100;
         this.nowTemp = 100;
         this.lastTarTemp = -1;
         this.lastFanSpeed = null;
@@ -34,6 +36,14 @@ public class Room {
         this.lastFanSpeed = "OFF";
         this.startTime = nowtime;
         this.isCheckIn = true;
+    }
+
+    public int getInitTemp() {
+        return initTemp;
+    }
+
+    public void setInitTemp(int initTemp) {
+        this.initTemp = initTemp;
     }
 
     public double getNowTemp() {

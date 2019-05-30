@@ -89,6 +89,7 @@ public class AirConditionerService {
     //=========================================================
 
     public String setInitTemp(int roomId, int initTemp) {
+        roomList.get(roomId).setInitTemp(initTemp);
         roomList.get(roomId).setNowTemp(initTemp);
         return "success";
     }
@@ -416,7 +417,7 @@ public class AirConditionerService {
         if (!(acParams.getSystemState().equals("ON"))) return;
         //只需要增加服务细节类的费用
         for(Service nowServ:runningList) {
-            nowServ.setCurrentFee(nowServ.getFeeRate()
+            nowServ.setCurrentFee(nowServ.getFeeRate()/60
                     +nowServ.getCurrentFee());
         }
     //账单的计时是在退房后，统计所有服务细节的对象直接得到。
@@ -428,7 +429,7 @@ public class AirConditionerService {
     }
 
     //回温和变温模块，定时更新房间温度
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 1000)
     private void timerToChangeRoomTemp() {
         if (acParams.getSystemState()==null) return;
         if (!(acParams.getSystemState().equals("ON"))) return;
@@ -449,14 +450,14 @@ public class AirConditionerService {
                 Service nowServ = findRoomService(i);
                 if (nowRoomTemp<=acParams.getTempLowLimit()) continue;
                 switch (nowServ.getFunSpeed()) {
-                    case "LOW":nowRoom.setNowTemp(nowRoomTemp+(factor*0.5));break;
-                    case "MIDDLE":nowRoom.setNowTemp(nowRoomTemp+(factor*1.0));break;
-                    case "HIGH":nowRoom.setNowTemp(nowRoomTemp+(factor*1.5));break;
+                    case "LOW":nowRoom.setNowTemp(nowRoomTemp+(factor*0.5/60));break;
+                    case "MIDDLE":nowRoom.setNowTemp(nowRoomTemp+(factor*1.0/60));break;
+                    case "HIGH":nowRoom.setNowTemp(nowRoomTemp+(factor*1.5/60));break;
                 }
             }
             else {
-                if (nowRoomTemp>=acParams.getTempHighLimit()) continue;
-                nowRoom.setNowTemp(nowRoomTemp+(-0.5*factor));
+                if (Math.abs(nowRoomTemp - nowRoom.getInitTemp()) <= 1e-2) continue;
+                nowRoom.setNowTemp(nowRoomTemp+(-0.5*factor/60));
             }
         }
     }
