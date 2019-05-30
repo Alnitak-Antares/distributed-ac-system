@@ -16,13 +16,13 @@ public class CustomerController {
     @PostMapping("/requestOn")
     public String requestOn(@RequestParam(value="roomID") int roomID) {
         System.out.println("=============[Debug]:/customr/requsetOn====");
-        return acService.requestPowerOn(roomID);
+        return "{ \"statue\" : \""+acService.requestPowerOff(roomID)+"\"}";
     }
 
     @PostMapping("/requestOff")
     public String requestOff(@RequestParam(value="roomID") int roomID) {
         System.out.println("==========[Debug]:/customer/requestOff======");
-        return acService.requestPowerOff(roomID);
+        return "{ \"statue\" : \""+acService.requestPowerOff(roomID)+"\"}";
     }
 
     @GetMapping("/requestRoomState")

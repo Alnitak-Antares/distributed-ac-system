@@ -379,7 +379,7 @@ public class AirConditionerService {
         if (acParams.getSystemState()==null) return;
         if (!(acParams.getSystemState().equals("ON"))) return;
         System.out.println("==============[Debug]:AutoChangeTemp=======");
-        for(int i = 0; i < 4; i++) {
+        for(int i = 1; i <= 4; i++) {
             Room nowRoom = roomList.get(i);
 
             System.out.println("当前温度："+nowRoom.getNowTemp());
