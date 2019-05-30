@@ -16,7 +16,7 @@ public class CustomerController {
     @PostMapping("/requestOn")
     public String requestOn(@RequestParam(value="roomID") int roomID) {
         System.out.println("=============[Debug]:/customr/requsetOn====");
-        return "{ \"statue\" : \""+acService.requestPowerOff(roomID)+"\"}";
+        return "{ \"statue\" : \""+acService.requestPowerOn(roomID)+"\"}";
     }
 
     @PostMapping("/requestOff")
