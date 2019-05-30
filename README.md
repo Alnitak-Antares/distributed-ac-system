@@ -68,7 +68,7 @@ response: (可忽略)
 ```
 四、监视房间状态
 ```http
-url: /admin/roomState/{roomID}   //{roomID}字段直接替换为0～3之间的房间ID号
+url: /admin/roomState/{roomID}   //{roomID}字段直接替换为1～4之间的房间ID号
 methon:GET
 body:
 无
@@ -284,7 +284,17 @@ url: /customer/requestRoomState
 methon:GET
 body:
     (value="roomID") int )
-response:  与管理员部分监视房间状态接口的返回值一致
+response:  与管理员部分监视房间状态接口的返回值一致,e.g.
+{
+    "nowTemp": 27,
+    "tarTemp": 24,
+    "funSpeed": "MIDDLE",
+    "feeRate": 2,
+    "totalFee": 0,
+    "runningTime": 0,
+    "inService": true,
+    "powerOn": true
+}
 ```
 五、调温
 ```

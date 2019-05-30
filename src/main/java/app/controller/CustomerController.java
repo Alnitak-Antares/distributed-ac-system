@@ -43,14 +43,14 @@ public class CustomerController {
     }
 
     @PostMapping("/changeTargetTemp")
-    public void changeTargetTemp(@RequestParam(value="roomID") int roomID, @RequestParam(value="targetTemp") int targetTemp) {
+    public String changeTargetTemp(@RequestParam(value="roomID") int roomID, @RequestParam(value="targetTemp") int targetTemp) {
         System.out.println("============[Debug]:/customer/changeTargetTemp====");
-        acService.changeTargetTemp(roomID, targetTemp);
+        return "{ \"statue\" : \""+acService.changeTargetTemp(roomID, targetTemp)+"}";
     }
 
     @PostMapping("/changeFanSpeed")
-    public void changeTargetFunSpeed(@RequestParam(value="roomID") int roomID, @RequestParam(value="targetFanSpeed") String targetFanSpeed) {
+    public String changeTargetFunSpeed(@RequestParam(value="roomID") int roomID, @RequestParam(value="targetFanSpeed") String targetFanSpeed) {
         System.out.println("===========[Debug]:/customer/changeFanSpeed=======");
-        acService.changeFanSpeed(roomID, targetFanSpeed);
+        return "{ \"statue\" : \""+acService.changeFanSpeed(roomID, targetFanSpeed)+"}";
     }
 }

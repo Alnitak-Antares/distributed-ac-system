@@ -37,6 +37,7 @@ public class ServiceDetailService {
         return nowDetail;
     }
     public void sumbitDetail(Service nowService) {
+        if (nowService==null) return;
         servicedetailmapper.insert(
                 trServiceToDetail(nowService)
         );
