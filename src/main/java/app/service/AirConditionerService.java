@@ -137,7 +137,7 @@ public class AirConditionerService {
         serv.setTarTemp(tarTemp);
         serv.setCurrentFee(0);
         serv.setStartTime(LocalDateTime.now());
-        return "success"
+        return "success";
     }
 
     //---------------------------------------------------------
@@ -152,7 +152,7 @@ public class AirConditionerService {
             waitingList.add(new Service(roomId, room.getLastTarTemp(),
                     funSpeed, LocalDateTime.now(),
                     acParams.getFeeRateByFunSpeed(funSpeed)));
-            return "success"
+            return "success";
         }
         if (runningList.contains(serv)) {
             serviceDetailService.sumbitDetail(serv);
