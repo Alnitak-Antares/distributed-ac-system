@@ -242,11 +242,14 @@ public class AirConditionerService {
     }
 
     private void freeService(Service serv) {
+        //运行中的service调度到等待队列
         int roomId = serv.getRoomId();
-        //To-do 当前服务对象写入详单
+
         serviceDetailService.sumbitDetail(serv);
-        //To-do bill里面调度计数+1 --finish
+
         billService.addRunningCounter(billList.get(roomId));
+        //TODO 当前服务对象信息（运行时间，计费等）写入bill
+
         serv.setStartTime(LocalDateTime.now());
         serv.setCurrentFee(0);
         roomList.get(roomId).setInService(false);
@@ -307,19 +310,47 @@ public class AirConditionerService {
         return lowestService;
     }
 
+    //根据roomId查看对应的房间是否正在等待服务
+    private boolean isWaitingService(int roomID) {
+        for (Service serv: waitingList) {
+            if(serv.getRoomId() == roomID)
+                return true;
+        }
+        return false;
+    }
+
     //调度器
     @Scheduled(fixedRate = 1000)
     private void schedule() {
         if (acParams.getSystemState()==null) return;
         if (!(acParams.getSystemState().equals("ON"))) return;
         System.out.println("==============[Debug]:schedule=======");
-        System.out.println(waitingList.size()+" "+runningList.size());
+        System.out.println("waiting: " + waitingList.size()+"  running: "+runningList.size());
 
-        for (Service serv: runningList) {
-            Room room = roomList.get(serv.getRoomId());
-            if (Math.abs(serv.getTarTemp() - room.getNowTemp()) < 1e-4) {
-                room.setInService(false);
-                //TODO: 到达目标温度后去掉runningService（自动重启？）
+        for (int i = 1; i <= 4; i++) {
+            Room room = roomList.get(i);
+            if(room.isInService()) {
+                Service serv = findRoomService(i);
+                if (room.getNowTemp() <= serv.getTarTemp()) {
+                    //达到目标温度，关闭服务，记录风速和目标温度以备重启
+                    room.setInService(false);
+                    room.setLastFanSpeed(serv.getFunSpeed());
+                    room.setLastTarTemp(serv.getTarTemp());
+
+                    runningList.remove(serv);
+                }
+            }
+            else {
+                if(!room.isPowerOn())   continue;
+                if(isWaitingService(i)) continue;
+                if(room.getNowTemp() > room.getLastTarTemp() - 1) {
+                    Service serv = new Service(i,
+                            room.getLastTarTemp(),
+                            room.getLastFanSpeed(),
+                            LocalDateTime.now(),
+                            acParams.getFeeRateByFunSpeed(room.getLastFanSpeed()));
+                    waitingList.add(serv);
+                }
             }
         }
         while(waitingList.size() > 0 && runningList.size() < 3)
@@ -374,7 +405,7 @@ public class AirConditionerService {
     }
 
     //回温和降温模块，定时更新房间温度
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 60000)
     private void timerToChangeRoomTemp() {
         if (acParams.getSystemState()==null) return;
         if (!(acParams.getSystemState().equals("ON"))) return;
@@ -390,14 +421,14 @@ public class AirConditionerService {
                 Service nowServ = findRoomService(i);
                 if (nowRoomTemp<=acParams.getTempLowLimit()) continue;
                 switch (nowServ.getFunSpeed()) {
-                    case "LOW":nowRoom.setNowTemp(nowRoomTemp-0.1);break;
-                    case "MIDDLE":nowRoom.setNowTemp(nowRoomTemp-0.2);break;
-                    case "HIGH":nowRoom.setNowTemp(nowRoomTemp-0.3);break;
+                    case "LOW":nowRoom.setNowTemp(nowRoomTemp-0.5);break;
+                    case "MIDDLE":nowRoom.setNowTemp(nowRoomTemp-1.0);break;
+                    case "HIGH":nowRoom.setNowTemp(nowRoomTemp-1.5);break;
                 }
             }
             else {
                 if (nowRoomTemp>=acParams.getTempHighLimit()) continue;
-                nowRoom.setNowTemp(nowRoomTemp+0.1);
+                nowRoom.setNowTemp(nowRoomTemp+0.5);
             }
         }
     }

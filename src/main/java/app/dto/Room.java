@@ -13,6 +13,8 @@ public class Room {
 
     public Room(double nowTemp) {
         this.nowTemp = nowTemp;
+        this.lastTarTemp = -1;
+        this.lastFanSpeed = null;
         this.isPowerOn = false;
         this.isInService = false;
         this.isCheckIn = false;
