@@ -117,6 +117,13 @@ public class AirConditionerService {
 
         //service持久化 当前时间：LocalDateTime.now()
         Service serv = findRoomService(roomId);
+        if(serv == null) {
+            Room room = roomList.get(roomId);
+            waitingList.add(new Service(roomId, tarTemp,
+                    room.getLastFanSpeed(), LocalDateTime.now(),
+                    acParams.getFeeRateByFunSpeed(room.getLastFanSpeed())));
+            return;
+        }
         if (runningList.contains(serv)) {
             serviceDetailService.sumbitDetail(serv);
             billService.addRunningService(billList.get(roomId), serv);
@@ -138,7 +145,13 @@ public class AirConditionerService {
 
         Service serv = findRoomService(roomId);
         //service持久化 当前时间：LocalDateTime.now()
-
+        if(serv == null) {
+            Room room = roomList.get(roomId);
+            waitingList.add(new Service(roomId, room.getLastTarTemp(),
+                    funSpeed, LocalDateTime.now(),
+                    acParams.getFeeRateByFunSpeed(funSpeed)));
+            return;
+        }
         if (runningList.contains(serv)) {
             serviceDetailService.sumbitDetail(serv);
             billService.addRunningService(billList.get(roomId), serv);

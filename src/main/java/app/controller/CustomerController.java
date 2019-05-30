@@ -27,7 +27,7 @@ public class CustomerController {
         System.out.println("=============[Debug]:/customer/requsetOn====");
         return "{ \"statue\" : \""+acService.requestPowerOn(roomID)+"\"," +
                 "\"tempLowLimit\": " + acParams.getTempLowLimit() +","+
-                "\"tempHighLimit\":" + acParams.getTempLowLimit() + "}";
+                "\"tempHighLimit\":" + acParams.getTempHighLimit() + "}";
     }
 
     @PostMapping("/requestOff")
