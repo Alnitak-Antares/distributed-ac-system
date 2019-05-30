@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.dto.AirConditionerParams;
 import app.dto.RoomState;
 import app.service.AirConditionerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ public class CustomerController {
     @Autowired
     AirConditionerService acService;
 
+    @Autowired
+    AirConditionerParams acParams;
     @PostMapping("/setInitTemp")
     public String setInitTemp(@RequestParam(value="roomID") int roomID,
                               @RequestParam(value="initTemp") int initTemp) {
@@ -22,7 +25,9 @@ public class CustomerController {
     @PostMapping("/requestOn")
     public String requestOn(@RequestParam(value="roomID") int roomID) {
         System.out.println("=============[Debug]:/customer/requsetOn====");
-        return "{ \"statue\" : \""+acService.requestPowerOn(roomID)+"\"}";
+        return "{ \"statue\" : \""+acService.requestPowerOn(roomID)+"\"," +
+                "\"tempLowLimit\": " + acParams.getTempLowLimit() +","+
+                "\"tempHighLimit\":" + acParams.getTempLowLimit() + "}";
     }
 
     @PostMapping("/requestOff")

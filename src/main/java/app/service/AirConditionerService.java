@@ -39,7 +39,7 @@ public class AirConditionerService {
     //TODO: 调度计数逻辑变更，符合优先级或时间片条件换入/换出时才记一次调度 --finished
     //TODO: 回温和变温模块区分制热/制冷模式 --finished
     //TODO: 从机开机时指定房间初始温度 --finished
-    //TODO: 经理报表中详单数定义更改：详单数指服务条目数，即记录下service的个数
+    //TODO: 经理报表中详单数定义更改：详单数指服务条目数，即记录下service的个数 --finished
     //TODO: 用户更改风速符合调度条件时，立即触发调度（可以通过调度器毫秒级运行解决，注意调度计数逻辑）--finished
 
     public void init() {
