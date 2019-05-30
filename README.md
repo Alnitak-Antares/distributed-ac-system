@@ -35,14 +35,14 @@ READY
 url: /admin/setParams
 methon:POST
 body: json格式，需要包含的参数如下
-(value="defaultRoomTemp") int ,
-(value="tempHighLimit") int ,
-(value="tempLowLimit") int ,
-(value="defaultTargetTemp") int ,
-(value="feeRateHigh") double ,
-(value="feeRateMiddle") double ,
-(value="feeRateLow") double ,
-(value="defaultFunSpeed") String )  //字符串, “LOW", "MIDDLE", "HIGH"三种
+    (value="defaultRoomTemp") int ,
+    (value="tempHighLimit") int ,
+    (value="tempLowLimit") int ,
+    (value="defaultTargetTemp") int ,
+    (value="feeRateHigh") double ,
+    (value="feeRateMiddle") double ,
+    (value="feeRateLow") double ,
+    (value="defaultFunSpeed") String )  //字符串, “LOW", "MIDDLE", "HIGH"三种
 response: 可忽略
 {
     "defaultRoomTemp": 30,
@@ -108,7 +108,7 @@ response: (json格式)
 url: /receptionist/adduser
 methon:post
 body:
-idnumber : xxxxxxx     //我想的是手机号码作为顾客的登陆账号，或者是身份证都行
+    idnumber : xxxxxxx     //我想的是手机号码作为顾客的登陆账号，或者是身份证都行
 response:（json格式）
 {
     "userid": null,     //这个userid是没用的……
@@ -133,9 +133,9 @@ response:
 url: /receptionist/createrdr
 methon:get
 body:
-roomid : xxxxx
-starttime : "yyyy-mm-ddThh:mm:ss"      //格式严格,字符T表示一个分割，这是java默认的格式
-stoptime : "yyyy-mm-ddThh:mm:ss"
+    roomid : xxxxx
+    starttime : "yyyy-mm-ddThh:mm:ss"      //格式严格,字符T表示一个分割，这是java默认的格式
+    stoptime : "yyyy-mm-ddThh:mm:ss"
 response:（json格式）
 {
     "serviceDetailList": [
@@ -166,9 +166,9 @@ http
 url: /receptionist/createinvoice
 methon:get
 body:
-roomid : xxxxx
-starttime : "yyyy-mm-ddThh:mm:ss"     //格式严格,字符T表示一个分割，这是java默认的格式
-stoptime : "yyyy-mm-ddThh:mm:ss"
+    roomid : xxxxx
+    starttime : "yyyy-mm-ddThh:mm:ss"     //格式严格,字符T表示一个分割，这是java默认的格式
+    stoptime : "yyyy-mm-ddThh:mm:ss"
 response:（json格式）
 {
     "billid": 1,
@@ -198,12 +198,12 @@ response:（json格式）
 url:/manager/queryreport
 methon:get
 body：
-list_Roomid:1
-list_Roomid:2
-type_Report : 0/1/2       // 0 日报，1周报 ，2年报
-year: yyyy        //固定4位数字，表示查询的起始年份
-month: mm      //固定2位数字，表示查询的起始月份
-day: dd            //固定2位数字，表示查询的起始日期
+    list_Roomid:1
+    list_Roomid:2
+    type_Report : 0/1/2       // 0 日报，1周报 ，2年报
+    year: yyyy        //固定4位数字，表示查询的起始年份
+    month: mm      //固定2位数字，表示查询的起始月份
+    day: dd            //固定2位数字，表示查询的起始日期
 
 response（json格式）:
 [
@@ -233,10 +233,10 @@ p.s. 代码提供了另一个接口,但是老师要求是的是日报，周报�
 url:/manager/queryreportTwo
 methon:get
 body：
-list_Roomid:1
-list_Roomid:2
-startTime: 2019-01-01T00:00:00
-stopTime: 2019-01-01T23:59:59
+    list_Roomid:1
+    list_Roomid:2
+    startTime: 2019-01-01T00:00:00
+    stopTime: 2019-01-01T23:59:59
 response跟上面的请求是一样的。
 ```
 ## 顾客页面
@@ -250,7 +250,7 @@ http
 url: /customer/requestOn
 methon:POST
 body: 
-(value="roomID") int )
+    (value="roomID") int )
 response: 可忽略
 "success"
 or "Error: It's powerOn."
@@ -261,7 +261,7 @@ http
 url: /customer/requestOff
 methon:POST
 body: 
-(value="roomID") int )
+    (value="roomID") int )
 response: 可忽略
 "success"
 or "Error: It's powerOff."
@@ -272,7 +272,7 @@ http
 url: /customer/requestRoomState
 methon:GET
 body:
-(value="roomID") int )
+    (value="roomID") int )
 response:  与管理员部分监视房间状态接口的返回值一致
 ```
 四、调温
@@ -281,8 +281,8 @@ http
 url: /customer/changeTargetTemp
 methon:POST
 body:
-(value="roomID") int )
-(value="targetTemp") int )
+    (value="roomID") int )
+    (value="targetTemp") int )
 response: 可忽略
 ```
 五、调风
@@ -291,7 +291,7 @@ http
 url: /customer/changeFanSpeed
 methon:POST
 body:
-(value="roomID") int )
-(value="targetFanSpeed") String )  //字符串, “LOW", "MIDDLE", "HIGH"三种
+    (value="roomID") int )
+    (value="targetFanSpeed") String )  //字符串, “LOW", "MIDDLE", "HIGH"三种
 response: 可忽略
 ```
