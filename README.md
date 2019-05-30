@@ -35,7 +35,7 @@ response: (可忽略)
 url: /admin/setParams
 methon:POST
 body: json格式，需要包含的参数如下
-    (value="defaultRoomTemp") int ,
+    (value="isCooling") boolean isCooling,
     (value="tempHighLimit") int ,
     (value="tempLowLimit") int ,
     (value="defaultTargetTemp") int ,
@@ -45,7 +45,7 @@ body: json格式，需要包含的参数如下
     (value="defaultFunSpeed") String )  //字符串, “LOW", "MIDDLE", "HIGH"三种
 response: 可忽略
 {
-    "defaultRoomTemp": 30,
+    "mode": "cool"
     "tempHighLimit": 30,
     "tempLowLimit": 16,
     "defaultTargetTemp": 24,
@@ -244,7 +244,18 @@ response跟上面的请求是一样的。
 顾客页面需要向顾客提供开机、调温、调风、关机功能，并能实时展示当前室温、风速、总费用等状态（定时向后端请求），数据呈现的样式由前端进行界面设计，后端会提供接口返回当前房间的所有状态信息
 为了区分不同顾客和房间，要求前端在顾客每一次请求的HTTP body中加上顾客的roomID参数
 ### 前后端接口及数据通信格式
-一、开空调
+一、设置初始温度
+```
+http
+url: /customer/setInitTemp
+methon:POST
+body: 
+    (value="roomID") int )
+    (value="initTemp") int initTemp)
+response: 可忽略
+{ "statue" : "success""}
+```
+二、开空调
 ```
 http
 url: /customer/requestOn
@@ -252,9 +263,11 @@ methon:POST
 body: 
     (value="roomID") int )
 response: 可忽略
-{ "statue" : "success"/"Error: It's powerOn."}
+{ "statue" : "success"/"Error: It's powerOn.",
+ "tempLowLimit": 17,
+ "tempHighLimit": 30}
 ```
-二、关空调
+三、关空调
 ```
 http
 url: /customer/requestOff
@@ -264,7 +277,7 @@ body:
 response: 可忽略
 { "statue" : "success"/"Error: It's powerOff."}
 ```
-三、获取房间状态信息
+四、获取房间状态信息
 ```
 http
 url: /customer/requestRoomState
@@ -273,7 +286,7 @@ body:
     (value="roomID") int )
 response:  与管理员部分监视房间状态接口的返回值一致
 ```
-四、调温
+五、调温
 ```
 http
 url: /customer/changeTargetTemp
@@ -283,7 +296,7 @@ body:
     (value="targetTemp") int )
 response: 可忽略
 ```
-五、调风
+六、调风
 ```
 http
 url: /customer/changeFanSpeed
