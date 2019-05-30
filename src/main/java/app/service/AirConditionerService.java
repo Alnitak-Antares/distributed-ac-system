@@ -181,6 +181,7 @@ public class AirConditionerService {
             rs.setFunSpeed(serv.getFunSpeed());
             rs.setTarTemp(serv.getTarTemp());
         }
+        rs.setNowTemp(room.getNowTemp());
         rs.setPowerOn(room.isPowerOn());
         rs.setInService(room.isInService());
         rs.setTotalFee(b.getTotalfee());
