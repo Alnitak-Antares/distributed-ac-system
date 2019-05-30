@@ -12,10 +12,16 @@ public class CustomerController {
     @Autowired
     AirConditionerService acService;
 
+    @PostMapping("/setInitTemp")
+    public String setInitTemp(@RequestParam(value="roomID") int roomID,
+                              @RequestParam(value="initTemp") int initTemp) {
+        System.out.println("=============[Debug]:/customer/setInitTemp====");
+        return "{ \"statue\" : \""+acService.setInitTemp(roomID, initTemp)+"\"}";
+    }
 
     @PostMapping("/requestOn")
     public String requestOn(@RequestParam(value="roomID") int roomID) {
-        System.out.println("=============[Debug]:/customr/requsetOn====");
+        System.out.println("=============[Debug]:/customer/requsetOn====");
         return "{ \"statue\" : \""+acService.requestPowerOn(roomID)+"\"}";
     }
 
@@ -39,7 +45,7 @@ public class CustomerController {
 
     @PostMapping("/changeFanSpeed")
     public void changeTargetFunSpeed(@RequestParam(value="roomID") int roomID, @RequestParam(value="targetFanSpeed") String targetFanSpeed) {
-        System.out.println("===========[Debug]:/customer/chageFanSpeed=======");
+        System.out.println("===========[Debug]:/customer/changeFanSpeed=======");
         acService.changeFanSpeed(roomID, targetFanSpeed);
     }
 }

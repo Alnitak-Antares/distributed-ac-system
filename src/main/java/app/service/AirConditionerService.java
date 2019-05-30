@@ -37,11 +37,10 @@ public class AirConditionerService {
     private ServiceDetailService serviceDetailService;
 
     //TODO: 调度计数逻辑变更，符合优先级或时间片条件换入/换出时才记一次调度 --finished
-    //TODO: 回温和变温模块区分制热/制冷模式
-    //TODO: 从机开机时指定房间初始温度
+    //TODO: 回温和变温模块区分制热/制冷模式 --finished
+    //TODO: 从机开机时指定房间初始温度 --finished
     //TODO: 经理报表中详单数定义更改：详单数指服务条目数，即记录下service的个数
     //TODO: 用户更改风速符合调度条件时，立即触发调度（可以通过调度器毫秒级运行解决，注意调度计数逻辑）--finished
-    //TODO: 回温和变温速率固定 0.5度/分钟逐级递增
 
     public void init() {
         waitingList = Collections.synchronizedList(new ArrayList<Service>());
@@ -49,7 +48,7 @@ public class AirConditionerService {
         roomList = Collections.synchronizedList(new ArrayList<Room>());
         billList = Collections.synchronizedList(new ArrayList<bill>());
         for(int i = 0; i <= 4; i++) {
-            roomList.add(new Room(acParams.getDefaultRoomTemp()));
+            roomList.add(new Room());
             billList.add(new bill(i));
         }
         //isSystemStartup=true;
@@ -89,6 +88,10 @@ public class AirConditionerService {
     //=====房客==================================================
     //=========================================================
 
+    public String setInitTemp(int roomId, int initTemp) {
+        roomList.get(roomId).setNowTemp(initTemp);
+        return "success";
+    }
     //----------------------------------------------------------
     /*房客请求打开空调
       说明：
@@ -417,6 +420,11 @@ public class AirConditionerService {
         if (acParams.getSystemState()==null) return;
         if (!(acParams.getSystemState().equals("ON"))) return;
         System.out.println("==============[Debug]:AutoChangeTemp=======");
+
+        double factor = 1;
+        if(acParams.getMode().equals("cool"))
+            factor = -1;
+
         for(int i = 1; i <= 4; i++) {
             Room nowRoom = roomList.get(i);
 
@@ -428,14 +436,14 @@ public class AirConditionerService {
                 Service nowServ = findRoomService(i);
                 if (nowRoomTemp<=acParams.getTempLowLimit()) continue;
                 switch (nowServ.getFunSpeed()) {
-                    case "LOW":nowRoom.setNowTemp(nowRoomTemp-0.5);break;
-                    case "MIDDLE":nowRoom.setNowTemp(nowRoomTemp-1.0);break;
-                    case "HIGH":nowRoom.setNowTemp(nowRoomTemp-1.5);break;
+                    case "LOW":nowRoom.setNowTemp(nowRoomTemp+(factor*0.5));break;
+                    case "MIDDLE":nowRoom.setNowTemp(nowRoomTemp+(factor*1.0));break;
+                    case "HIGH":nowRoom.setNowTemp(nowRoomTemp+(factor*1.5));break;
                 }
             }
             else {
                 if (nowRoomTemp>=acParams.getTempHighLimit()) continue;
-                nowRoom.setNowTemp(nowRoomTemp+0.5);
+                nowRoom.setNowTemp(nowRoomTemp+(-0.5*factor));
             }
         }
     }

@@ -29,7 +29,7 @@ public class AdminController {
     //http://localhost:8080/admin/setParams?defaultRoomTemp=30&tempHighLimit=30&tempLowLimit=16&defaultTargetTemp=24&feeRateHigh=3&feeRateMiddle=2&feeRateLow=1&defaultFunSpeed=MIDDLE
     //response:AirConditionerParams
     @PostMapping(value = "/setParams")
-    public AirConditionerParams setParams(@RequestParam(value="defaultRoomTemp") int defaultRoomTemp,
+    public AirConditionerParams setParams(@RequestParam(value="isCooling") boolean isCooling,
                                           @RequestParam(value="tempHighLimit") int tempHighLimit,
                                           @RequestParam(value="tempLowLimit") int tempLowLimit,
                                           @RequestParam(value="defaultTargetTemp") int defaultTargetTemp,
@@ -38,7 +38,7 @@ public class AdminController {
                                           @RequestParam(value="feeRateLow") double feeRateLow,
                                           @RequestParam(value="defaultFunSpeed") String defaultFunSpeed) {
 
-        acParams.setDefaultRoomTemp(defaultRoomTemp);
+        acParams.setMode(isCooling ? "cool" : "heat");
         acParams.setTempHighLimit(tempHighLimit);
         acParams.setTempLowLimit(tempLowLimit);
         acParams.setDefaultTargetTemp(defaultTargetTemp);

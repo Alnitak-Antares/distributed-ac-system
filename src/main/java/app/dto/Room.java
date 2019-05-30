@@ -11,8 +11,8 @@ public class Room {
     private boolean isCheckIn;      //是否入住
     private LocalDateTime startTime;         //入住时间
 
-    public Room(double nowTemp) {
-        this.nowTemp = nowTemp;
+    public Room() {
+        this.nowTemp = 100;
         this.lastTarTemp = -1;
         this.lastFanSpeed = null;
         this.isPowerOn = false;

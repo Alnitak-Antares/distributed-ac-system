@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AirConditionerParams {
-    private int defaultRoomTemp;
+    private String mode;
     private int tempHighLimit;
     private int tempLowLimit;
     private int defaultTargetTemp;
@@ -14,13 +14,12 @@ public class AirConditionerParams {
     private String defaultFunSpeed; //LOW, MIDDLE, HIGH
     private String systemState; //OFF, READY, ON
 
-
-    public int getDefaultRoomTemp() {
-        return defaultRoomTemp;
+    public String getMode() {
+        return mode;
     }
 
-    public void setDefaultRoomTemp(int defaultRoomTemp) {
-        this.defaultRoomTemp = defaultRoomTemp;
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 
     public String getDefaultFunSpeed() {
