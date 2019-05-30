@@ -456,7 +456,10 @@ public class AirConditionerService {
                 }
             }
             else {
-                if (Math.abs(nowRoomTemp - nowRoom.getInitTemp()) <= 1e-2) continue;
+                if (Math.abs(nowRoomTemp - nowRoom.getInitTemp()) <= 1e-2) {
+                    nowRoom.setNowTemp(nowRoom.getInitTemp());
+                    continue;
+                }
                 nowRoom.setNowTemp(nowRoomTemp+(-0.5*factor/60));
             }
         }
