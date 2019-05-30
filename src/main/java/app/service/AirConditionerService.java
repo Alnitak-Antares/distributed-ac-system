@@ -114,8 +114,8 @@ public class AirConditionerService {
     //--------------------------------------------------------
     //房客请求调节温度
     // 说明：
-    public void changeTargetTemp(int roomId, int tarTemp) {
-
+    public String changeTargetTemp(int roomId, int tarTemp) {
+        if (!(roomList.get(roomId)).isPowerOn()) return "Error: It's powerOff.";
         //service持久化 当前时间：LocalDateTime.now()
         Service serv = findRoomService(roomId);
         if(serv == null) {
@@ -123,7 +123,7 @@ public class AirConditionerService {
             waitingList.add(new Service(roomId, tarTemp,
                     room.getLastFanSpeed(), LocalDateTime.now(),
                     acParams.getFeeRateByFunSpeed(room.getLastFanSpeed())));
-            return;
+            return "success";
         }
         if (runningList.contains(serv)) {
             serviceDetailService.sumbitDetail(serv);
@@ -137,13 +137,14 @@ public class AirConditionerService {
         serv.setTarTemp(tarTemp);
         serv.setCurrentFee(0);
         serv.setStartTime(LocalDateTime.now());
+        return "success"
     }
 
     //---------------------------------------------------------
     // 房客请求调节风速
     // 说明：
-    public void changeFanSpeed(int roomId, String funSpeed) {
-
+    public String changeFanSpeed(int roomId, String funSpeed) {
+        if (!(roomList.get(roomId)).isPowerOn()) return "Error: It's powerOff.";
         Service serv = findRoomService(roomId);
         //service持久化 当前时间：LocalDateTime.now()
         if(serv == null) {
@@ -151,7 +152,7 @@ public class AirConditionerService {
             waitingList.add(new Service(roomId, room.getLastTarTemp(),
                     funSpeed, LocalDateTime.now(),
                     acParams.getFeeRateByFunSpeed(funSpeed)));
-            return;
+            return "success"
         }
         if (runningList.contains(serv)) {
             serviceDetailService.sumbitDetail(serv);
@@ -164,6 +165,7 @@ public class AirConditionerService {
         serv.setFunSpeed(funSpeed);
         serv.setFeeRate(acParams.getFeeRateByFunSpeed(funSpeed));
         serv.setStartTime(LocalDateTime.now());
+        return "success";
     }
 
     /*-----------------------------------------------------------
