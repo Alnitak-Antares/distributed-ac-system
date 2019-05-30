@@ -49,7 +49,7 @@ public class ReceptionistController {
     // finish test by postman
 
     public String checkOutCustomer(@RequestParam(value="roomid") int roomid) {
-        return airConditionerService.checkOutCustom(roomid);
+        return "{ \"statue\" : \""+airConditionerService.checkOutCustom(roomid)+"\"}";
     }
 
     //finist test by postman

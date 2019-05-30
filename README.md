@@ -28,7 +28,7 @@ methon:GET
 body:
 无
 response: (可忽略)
-READY
+{ "statue" : "READY"}
 ```
 二、设置参数
 ```http
@@ -64,7 +64,7 @@ methon:GET
 body:
 无
 response: (可忽略)
-ON
+{ "statue" : "ON"}
 ```
 四、监视房间状态
 ```http
@@ -126,7 +126,7 @@ body:{
 	roomid : xx
 }
 response:
-"success"或者"error"
+{ "statue" : "success"/"error"}
 ```
 三、请求详单
 ```
@@ -252,8 +252,7 @@ methon:POST
 body: 
     (value="roomID") int )
 response: 可忽略
-"success"
-or "Error: It's powerOn."
+{ "statue" : "success"/"Error: It's powerOn."}
 ```
 二、关空调
 ```
@@ -263,8 +262,7 @@ methon:POST
 body: 
     (value="roomID") int )
 response: 可忽略
-"success"
-or "Error: It's powerOff."
+{ "statue" : "success"/"Error: It's powerOff."}
 ```
 三、获取房间状态信息
 ```
