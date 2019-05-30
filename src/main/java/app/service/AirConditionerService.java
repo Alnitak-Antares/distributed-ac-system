@@ -36,6 +36,13 @@ public class AirConditionerService {
     @Autowired
     private ServiceDetailService serviceDetailService;
 
+    //TODO: 调度计数逻辑变更，符合优先级或时间片条件换入/换出时才记一次调度
+    //TODO: 回温和变温模块区分制热/制冷模式
+    //TODO: 从机开机时指定房间初始温度
+    //TODO: 经理报表中详单数定义更改：详单数指服务条目数，即记录下service的个数
+    //TODO: 用户更改风速符合调度条件时，立即触发调度（可以通过调度器毫秒级运行解决，注意调度计数逻辑）
+    //TODO: 回温和变温速率固定 0.5度/分钟逐级递增
+
     public void init() {
         waitingList = Collections.synchronizedList(new ArrayList<Service>());
         runningList = Collections.synchronizedList(new ArrayList<Service>());
