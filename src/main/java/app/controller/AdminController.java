@@ -21,7 +21,7 @@ public class AdminController {
     @GetMapping(value = "/powerOn")
     public String powerOn() {
         acParams.setSystemState("READY");
-        return acParams.getSystemState();
+        return "{ \"statue\" : \""+acParams.getSystemState()+"\"}";
     }
 
     //finish test by postman
@@ -57,7 +57,7 @@ public class AdminController {
     public String startup() {
         acParams.setSystemState("ON");
         acService.init();
-        return acParams.getSystemState();
+		return "{ \"statue\" : \""+acParams.getSystemState()+"\"}";
     }
 
     //finish test by postman
