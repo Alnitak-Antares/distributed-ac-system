@@ -36,11 +36,11 @@ public class AirConditionerService {
     @Autowired
     private ServiceDetailService serviceDetailService;
 
-    //TODO: 调度计数逻辑变更，符合优先级或时间片条件换入/换出时才记一次调度
+    //TODO: 调度计数逻辑变更，符合优先级或时间片条件换入/换出时才记一次调度 --finished
     //TODO: 回温和变温模块区分制热/制冷模式
     //TODO: 从机开机时指定房间初始温度
     //TODO: 经理报表中详单数定义更改：详单数指服务条目数，即记录下service的个数
-    //TODO: 用户更改风速符合调度条件时，立即触发调度（可以通过调度器毫秒级运行解决，注意调度计数逻辑）
+    //TODO: 用户更改风速符合调度条件时，立即触发调度（可以通过调度器毫秒级运行解决，注意调度计数逻辑）--finished
     //TODO: 回温和变温速率固定 0.5度/分钟逐级递增
 
     public void init() {
@@ -244,8 +244,6 @@ public class AirConditionerService {
         int roomId = serv.getRoomId();
         serv.setStartTime(LocalDateTime.now());
         roomList.get(roomId).setInService(true);
-        //To-do bill里面调度计数+1 --finish
-        billService.addRunningCounter(billList.get(roomId));
         runningList.add(serv);
     }
 
@@ -257,7 +255,6 @@ public class AirConditionerService {
 
         billService.addRunningCounter(billList.get(roomId));
         billService.addRunningService(billList.get(roomId),serv);
-        //TODO 当前服务对象信息（运行时间，计费等）写入bill --finish
 
         serv.setStartTime(LocalDateTime.now());
         serv.setCurrentFee(0);
@@ -336,6 +333,7 @@ public class AirConditionerService {
         System.out.println("==============[Debug]:schedule=======");
         System.out.println("waiting: " + waitingList.size()+"  running: "+runningList.size());
 
+        //检测房间是否达到目标温度
         for (int i = 1; i <= 4; i++) {
             Room room = roomList.get(i);
             if(room.isInService()) {
@@ -349,10 +347,10 @@ public class AirConditionerService {
                     runningList.remove(serv);
                 }
             }
-            else {
+            else {  //  检测房间是否回温超过一度，超过则自动重启服务
                 if(!room.isPowerOn())   continue;
                 if(isWaitingService(i)) continue;
-                if(room.getNowTemp() > room.getLastTarTemp() - 1) {
+                if(Math.abs(room.getNowTemp() - room.getLastTarTemp()) >= 1) {
                     Service serv = new Service(i,
                             room.getLastTarTemp(),
                             room.getLastFanSpeed(),
@@ -413,7 +411,7 @@ public class AirConditionerService {
      //   }
     }
 
-    //回温和降温模块，定时更新房间温度
+    //回温和变温模块，定时更新房间温度
     @Scheduled(fixedRate = 60000)
     private void timerToChangeRoomTemp() {
         if (acParams.getSystemState()==null) return;
