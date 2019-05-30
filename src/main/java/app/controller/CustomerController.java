@@ -45,12 +45,12 @@ public class CustomerController {
     @PostMapping("/changeTargetTemp")
     public String changeTargetTemp(@RequestParam(value="roomID") int roomID, @RequestParam(value="targetTemp") int targetTemp) {
         System.out.println("============[Debug]:/customer/changeTargetTemp====");
-        return "{ \"statue\" : \""+acService.changeTargetTemp(roomID, targetTemp)+"}";
+        return "{ \"statue\" : \""+acService.changeTargetTemp(roomID, targetTemp)+"\"}";
     }
 
     @PostMapping("/changeFanSpeed")
     public String changeTargetFunSpeed(@RequestParam(value="roomID") int roomID, @RequestParam(value="targetFanSpeed") String targetFanSpeed) {
         System.out.println("===========[Debug]:/customer/changeFanSpeed=======");
-        return "{ \"statue\" : \""+acService.changeFanSpeed(roomID, targetFanSpeed)+"}";
+        return "{ \"statue\" : \""+acService.changeFanSpeed(roomID, targetFanSpeed)+"\"}";
     }
 }

@@ -48,20 +48,18 @@ public class ManagerController {
         }
         ArrayList<RoomStatis> roomStatisList=new ArrayList<RoomStatis>();
         Integer typeReport=Integer.valueOf(request.getParameter("type_Report"));
-        String year=request.getParameter("year");
-        String month=request.getParameter("month");
-        String day=request.getParameter("day");
+        String year=String.format("%04d",Integer.valueOf(request.getParameter("year")));
+        String month=String.format("%02d",Integer.valueOf(request.getParameter("month")));
+        String day=String.format("%02d",Integer.valueOf(request.getParameter("day")));
         String stopTime=year+"-"+month+"-"+day+"T"+"23:59:59";
         String startTime="0000-00-00";
         switch (typeReport) {
             case 0:startTime=year+"-"+month+"-"+day+"T"+"00:00:00";break;
             case 1:
-                month=String.format("%02d",Integer.valueOf(month));
                 startTime=year+"-"+month+"-"+"01"+"T"+"00:00:00";
                 stopTime=year+"-"+month+"-"+"31"+"T"+"23:59:59";
                 break;
             case 2:
-                year=String.format("%04d",Integer.valueOf(year));
                 startTime=year+"-"+"01"+"-01"+"T"+"00:00:00";
                 stopTime=year+"-"+"12"+"-"+"31"+"T"+"23:59:59";
                 break;

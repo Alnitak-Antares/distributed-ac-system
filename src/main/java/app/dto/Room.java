@@ -11,6 +11,7 @@ public class Room {
     private boolean isInService;    //是否服务
     private boolean isCheckIn;      //是否入住
     private LocalDateTime startTime;         //入住时间
+    private int runningTime;        //入住后开机总时间
 
     public Room() {
         this.initTemp = 100;
@@ -26,6 +27,7 @@ public class Room {
     }
 
     public void clear() {
+        this.lastFanSpeed = "OFF";
         this.isPowerOn = false;
         this.isInService = false;
     }
@@ -100,5 +102,13 @@ public class Room {
 
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
+    }
+
+    public int getRunningTime() {
+        return runningTime;
+    }
+
+    public void setRunningTime(int runningTime) {
+        this.runningTime = runningTime;
     }
 }

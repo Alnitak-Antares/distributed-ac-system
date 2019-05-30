@@ -305,6 +305,9 @@ body:
     (value="roomID") int )
     (value="targetTemp") int )
 response: 可忽略
+{
+    "statue": "success"/ "Error: It's powerOff."
+}
 ```
 六、调风
 ```
@@ -315,4 +318,7 @@ body:
     (value="roomID") int )
     (value="targetFanSpeed") String )  //字符串, “LOW", "MIDDLE", "HIGH"三种
 response: 可忽略
+{
+    "statue": "success"/ "Error: It's powerOff."
+}
 ```

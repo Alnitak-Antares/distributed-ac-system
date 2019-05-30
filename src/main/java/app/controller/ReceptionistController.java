@@ -22,8 +22,6 @@ public class ReceptionistController {
     private ServiceDetailService serviceDetailService;
     @Autowired
     private BillService billService;
-    @Autowired
-    private UserService userService;
 
     @PostMapping("/adduser")
     /*  接收参数 房客的手机号码
@@ -34,8 +32,7 @@ public class ReceptionistController {
         //前台增加用户，需要房客的手机号码，返回房客房间空调系统的密码
         //如果房间满，返回空对象
         User nowUser=airConditionerService.checkInCustom(idNumber);
-        if (nowUser!=null) userService.submitUser(nowUser);
-        else {
+        if (nowUser==null) {
             nowUser=new User();
             nowUser.setUserid(-1);
         }
@@ -62,6 +59,7 @@ public class ReceptionistController {
     public DetailRecord createRDR(@RequestParam(value="roomid") int roomId,
                                   @RequestParam(value="starttime") String startTime,
                                   @RequestParam(value="stoptime") String stopTime) {
+        System.out.println("===========[Debug]:createrdr=========");
         return serviceDetailService.
                 selectByRoomIdAndTime(roomId,startTime,stopTime);
     }

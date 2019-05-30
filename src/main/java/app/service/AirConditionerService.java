@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Semaphore;
 
 @Component
 public class AirConditionerService {
@@ -30,11 +31,15 @@ public class AirConditionerService {
 
     @Autowired
     private BillService billService;
+    @Autowired
+    private UserService userService;
 
     private boolean isSystemStartup=false;
 
     @Autowired
     private ServiceDetailService serviceDetailService;
+
+    final Semaphore semp = new Semaphore(2);
 
     //TODO: 调度计数逻辑变更，符合优先级或时间片条件换入/换出时才记一次调度 --finished
     //TODO: 回温和变温模块区分制热/制冷模式 --finished
@@ -100,6 +105,8 @@ public class AirConditionerService {
     public String requestPowerOn(int roomId) {
         if (roomList.get(roomId).isPowerOn()) return "Error: It's powerOn.";
         roomList.get(roomId).setPowerOn(true);
+        roomList.get(roomId).setLastTarTemp(acParams.getDefaultTargetTemp());
+        roomList.get(roomId).setLastFanSpeed(acParams.getDefaultFunSpeed());
         billService.addPowerOn(billList.get(roomId));
         Service service = new Service(roomId,
                 acParams.getDefaultTargetTemp(),
@@ -116,15 +123,21 @@ public class AirConditionerService {
     // 说明：
     public String changeTargetTemp(int roomId, int tarTemp) {
         if (!(roomList.get(roomId)).isPowerOn()) return "Error: It's powerOff.";
+        Room room = roomList.get(roomId);
+        if ((room.getNowTemp() - tarTemp >0.0)!=(acParams.getMode().equals("cool"))) {
+            return acParams.getMode().equals("cool")?
+                    "Error: It's higher than NowTemp.":
+                    "Error: It's lower than NowTemp.";
+        }
         //service持久化 当前时间：LocalDateTime.now()
         Service serv = findRoomService(roomId);
         if(serv == null) {
-            Room room = roomList.get(roomId);
             waitingList.add(new Service(roomId, tarTemp,
                     room.getLastFanSpeed(), LocalDateTime.now(),
                     acParams.getFeeRateByFunSpeed(room.getLastFanSpeed())));
             return "success";
         }
+        else
         if (runningList.contains(serv)) {
             serviceDetailService.sumbitDetail(serv);
             billService.addRunningService(billList.get(roomId), serv);
@@ -173,13 +186,14 @@ public class AirConditionerService {
      */
     public String requestPowerOff(int roomId) {
         if (!(roomList.get(roomId)).isPowerOn()) return "Error: It's powerOff.";
+        roomList.get(roomId).clear();
         Service serv = findRoomService(roomId);
         serviceDetailService.sumbitDetail(serv);
         billService.addRunningService(billList.get(roomId),serv);
        // billService.submitBill(billList.get(roomId));
 
         deleteRoomService(roomId);
-        roomList.get(roomId).clear();
+        //roomList.get(roomId).clear();
         return "success";
     }
 
@@ -195,16 +209,18 @@ public class AirConditionerService {
         bill b = billList.get(roomId);
 
         RoomState rs = new RoomState();
+        double nowServFee=0.0;
         if (serv != null) {
             rs.setFeeRate(serv.getFeeRate());
             rs.setFunSpeed(serv.getFunSpeed());
             rs.setTarTemp(serv.getTarTemp());
+            nowServFee=serv.getCurrentFee();
         }
         rs.setNowTemp(room.getNowTemp());
         rs.setPowerOn(room.isPowerOn());
         rs.setInService(room.isInService());
-        rs.setTotalFee(b.getTotalfee());
-        rs.setRunningTime(b.getRunningtime());
+        rs.setTotalFee(b.getTotalfee()+nowServFee);
+        rs.setRunningTime(room.getRunningTime());
 
         return rs;
     }
@@ -224,6 +240,8 @@ public class AirConditionerService {
                 nowuser.setRoomid(indexRoom);
                 nowuser.setUsername(phoneNumber);
                 nowuser.setPassword(createRandomNumber(4));
+                userService.submitUser(nowuser);
+                nowuser=userService.selectByUsername(phoneNumber);
                 nowRoom.init(nowtime);
                 billService.initBill(billList.get(indexRoom),nowtime.toString(),nowuser);
                 return nowuser;
@@ -357,19 +375,25 @@ public class AirConditionerService {
             Room room = roomList.get(i);
             if(room.isInService()) {
                 Service serv = findRoomService(i);
-                if (room.getNowTemp() <= serv.getTarTemp()) {
+                if (((room.getNowTemp() - serv.getTarTemp() >0.0)!=(acParams.getMode().equals("cool")))
+                    || (Math.abs(room.getNowTemp() - room.getLastTarTemp())<=0.1)) {
                     //达到目标温度，关闭服务，记录风速和目标温度以备重启
+                    System.out.println(i+" "+serv.getTarTemp()+" "+room.getNowTemp());
+                    serviceDetailService.sumbitDetail(serv);
+                    billService.addRunningService(billList.get(i),serv);
+                    //room.setNowTemp(serv.getTarTemp());
                     room.setInService(false);
                     room.setLastFanSpeed(serv.getFunSpeed());
                     room.setLastTarTemp(serv.getTarTemp());
-
                     runningList.remove(serv);
                 }
+
             }
             else {  //  检测房间是否回温超过一度，超过则自动重启服务
                 if(!room.isPowerOn())   continue;
                 if(isWaitingService(i)) continue;
-                if(Math.abs(room.getNowTemp() - room.getLastTarTemp()) >= 1) {
+                if((room.getNowTemp() - room.getLastTarTemp() >=1)&&(acParams.getMode().equals("cool"))
+                || (room.getLastTarTemp() -room.getNowTemp() >=1)&&(acParams.getMode().equals("heat"))) {
                     Service serv = new Service(i,
                             room.getLastTarTemp(),
                             room.getLastFanSpeed(),
@@ -422,6 +446,10 @@ public class AirConditionerService {
             nowServ.setCurrentFee(nowServ.getFeeRate()/60
                     +nowServ.getCurrentFee());
         }
+        System.out.println("----BillList------");
+        for(int i = 1; i <= 4; i++) {
+            System.out.println(billList.get(i).getTotalfee());
+        }
     //账单的计时是在退房后，统计所有服务细节的对象直接得到。
         //   for(int indexRoom=1;indexRoom<=4;indexRoom++) {
      //       if (!(roomList.get(indexRoom)).isCheckIn()) continue;
@@ -431,7 +459,7 @@ public class AirConditionerService {
     }
 
     //回温和变温模块，定时更新房间温度
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 300)
     private void timerToChangeRoomTemp() {
         if (acParams.getSystemState()==null) return;
         if (!(acParams.getSystemState().equals("ON"))) return;
@@ -449,8 +477,10 @@ public class AirConditionerService {
             double nowRoomTemp=nowRoom.getNowTemp();
 
             if (nowRoom.isInService()) {
+                nowRoom.setRunningTime(nowRoom.getRunningTime()+1);
                 Service nowServ = findRoomService(i);
-                if (nowRoomTemp<=acParams.getTempLowLimit()) continue;
+                if (factor ==-1 && nowRoomTemp<=acParams.getTempLowLimit()
+                    || factor==1 && nowRoomTemp>=acParams.getTempHighLimit()) continue;
                 switch (nowServ.getFunSpeed()) {
                     case "LOW":nowRoom.setNowTemp(nowRoomTemp+(factor*0.5/60));break;
                     case "MIDDLE":nowRoom.setNowTemp(nowRoomTemp+(factor*1.0/60));break;
