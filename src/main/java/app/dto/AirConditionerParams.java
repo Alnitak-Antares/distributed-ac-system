@@ -98,7 +98,7 @@ public class AirConditionerParams {
         return -1;
     }
     public double getFeeRateByFunSpeed(String funSpeed) {
-        switch (defaultFunSpeed) {
+        switch (funSpeed) {
             case "LOW":
                 return feeRateLow;
             case "MIDDLE":
