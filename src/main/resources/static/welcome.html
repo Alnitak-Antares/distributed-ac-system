@@ -1,28 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+<head lang="en">
     <meta charset="UTF-8">
-    <title>Welcome</title>
+    <title>系统登录 - 空调管理系统</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="js/js.js"></script>
 </head>
-<body>
-<h1>Hello!</h1>
+<body class="login_bg">
+<section class="loginBox">
+    <header class="loginHeader">
+        <h1>空调管理系统</h1>
+    </header>
+    <section class="loginCont">
+        <form class="loginForm" action="/login">
+            <div class="inputbox">
+                <label for="user">账号：</label>
+                <input id="user" type="text" name="username" placeholder="请输入账号名" required/>
+            </div>
+            <div class="inputbox">
+                <label for="password">密码：</label>
+                <input id="password" type="password" name="password" placeholder="请输入密码" required/>
+            </div>
+            <div class="suBBtn">
+                <input type="submit" class="inputButtontype" id="login" value="登录" />
+                <input type="reset" class="inputButtontype" id="login_reset" value="重置"/>
+            </div>
 
-<form action="http://localhost:8080/login" method="get" >
-    <table width="60%" height="60%">
-        <tr>
-            <td width="20%">用户名:</td>
-            <td width="40%"><input type="text" name="username" id="username"  /> <br/></td>
-            <td width="40%"><span id="username_msg"></span></td>
-        </tr>
-        <tr>
-            <td>密码:</td>
-            <td><input type="password" name="password" id="password"   /> <br/></td>
-            <td><span id="password_msg"></span></td>
-        </tr>
-        <tr>
-            <td><input type="submit" value="提交"></td>
-        </tr>
-    </table>
-</form>
+        </form>
+    </section>
+</section>
+
 </body>
 </html>

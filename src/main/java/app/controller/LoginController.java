@@ -1,12 +1,10 @@
 package app.controller;
 
-import app.dao.UserMapper;
 import app.entity.User;
 import app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,20 +26,16 @@ public class LoginController {
         User nowUser=userService.selectByUsername(username);
 
         if (nowUser!=null && nowUser.getPassword().equals(password)) {
-            //空调管理员
-            if (username.equals("admin")) return "admin.html";
-            if (username.equals("manager")) return "manager.html";
-            if (username.equals("receptionist")) return "receptionist.html";
 
-            return "redirect:/userView/"+nowUser.getRoomid();
+            if (username.equals("admin")) return "redirect:http://localhost:8080/adminView/";
+            if (username.equals("manager")) return "redirect:http://localhost:8080/managerView/";
+            if (username.equals("receptionist")) return "redirect:http://localhost:8080/receptionistView";
+
+            return "redirect:http://localhost:8080/userView/"+nowUser.getRoomid();
         }
-        return "error.html";
+        return "redirect:http://localhost:8080/errorView";
     }
 
-//    @RequestMapping("/userViem/{roomid}")
-//    public String userLoginView(){
-//        return "user.html";
-//    }
     @RequestMapping("/userView/{roomid}")
     public String userLoginView(){
 

@@ -459,7 +459,7 @@ public class AirConditionerService {
     }
 
     //回温和变温模块，定时更新房间温度
-    @Scheduled(fixedRate = 300)
+    @Scheduled(fixedRate = 1000)
     private void timerToChangeRoomTemp() {
         if (acParams.getSystemState()==null) return;
         if (!(acParams.getSystemState().equals("ON"))) return;

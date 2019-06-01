@@ -1,10 +1,241 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+<head lang="en">
     <meta charset="UTF-8">
-    <title>Welcome</title>
+    <title>前台</title>
+    <link rel="stylesheet" href="css/public.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+     <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="js/js.js"></script>
 </head>
 <body>
-<h1>Hello, receptionist!</h1>
+<!--头部-->
+<header class="publicHeader">
+    <h1>前台界面</h1>
+
+    <div class="publicHeaderR">
+        <p><span>您好！</span><span style="color: #fff21b">receptionist</span> , 欢迎您！</p>
+    </div>
+</header>
+<!--时间-->
+<section class="publicTime">
+    <span id="time">2015年1月1日 11:11  星期一</span>
+    <a href="#">温馨提示：为了能正常浏览，请使用高版本浏览器！（IE10+）</a>
+</section>
+
+<!--前台功能-->
+<section class="publicMian">
+    <div class="left">
+        <h2 class="leftH2"><span class="span1"></span>功能列表 <span></span></h2>
+        <nav>
+            <ul class="list">
+                <li><input type="button" id="checkin" value="办理入住"></li>
+                <li><input type="button" id="createRDR" value="请求详单"></li>
+                <li><input type="button" id="createInvoice" value="请求账单"></li>
+                <li><input type="button" id="checkout" value="退房"></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="right" id="receptionistInit">
+        <img class="wColck" src="img/clock.jpg" alt=""/>
+        <div class="wFont">
+            <h2>Receptionist</h2>
+            <p><b>请选择要执行的功能!</b></p>
+        </div>
+    </div>
+    <!--办理入住-->
+    <div class="right" id="checkInPage">
+        <div class="addCustomer"></div>
+        <div class="remove" id="addCustomer">
+            <div class="removerChid">
+                <h2>信息填写</h2>
+                <div class="removeMain" >
+                    <label for="identifier">输入身份证号：</label>
+                    <input type="text" name="identifier" id="identifier" />
+                </div>
+                <div class="providerAddBtn">
+                    <input type="button" value="确定" id="saveIdentifier"/>
+                    <input type="button" value="取消" id="cancelIdentifier"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--成功办理-->
+    <div class="right" id="showCustomerAccount">
+        <div class="location">
+            <strong>你现在所在的位置是:</strong>
+            <span>用户账号信息显示</span>
+        </div>
+        <table class="providerTable" cellpadding="0" cellspacing="0">
+            <tr class="firstTr">
+                <th>用户ID</th>
+                <td id="checkin_userID"></td>
+            </tr>
+            <tr>
+                <th>用户名</th>
+                <td id="checkin_userName"></td>
+            </tr>
+            <tr>
+                <th>密码</th>
+                <td id="checkin_userPassword"></td>
+            </tr>
+            <tr>
+                <th>房间号</th>
+                <td id="checkin_roomID"></td>
+            </tr>
+        </table>
+    </div>
+
+    <!--请求详单-->
+    <div class="right" id="createRDRPage">
+        <div class="location">
+            <strong>你现在所在的位置是:</strong>
+            <span>请求详单</span>
+        </div>
+        <div class="providerAdd">
+            <form action="#">
+                <div class="">
+                    <label for="RDR_roomID">房间号：</label>
+                    <input type="text" name="RDR_roomID" id="RDR_roomID" />
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="RDR_starttime">起始时间：</label>
+                    <input type="text" name="RDR_starttime" id="RDR_starttime" />
+                    <span >*</span>
+                </div>
+                <div>
+                    <label for="RDR_stoptime">结束时间：</label>
+                    <input type="text" name="RDR_stoptime" id="RDR_stoptime"/>
+                    <span>*</span>
+                </div>
+                <div class="providerAddBtn">
+                    <input type="button" value="请求" id="requstRDR"/>
+                    <input type="reset" value="重置" id="resetRDR"/>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--详单信息-->
+    <div class="right" id="RDRInformationPage">
+        <div class="location">
+            <strong>你现在所在的位置是:</strong>
+            <span>详单信息查看</span>
+        </div>
+        <div class="search">
+            <input type="button" value="打印"  onclick="method5('RDRtable')" id="printRDR">
+        </div>
+        <table class="providerTable" cellpadding="0" cellspacing="0" id="RDRtable">
+            <tr class="firstTr">
+                <th>详单ID</th>
+                 <th>开始时间</th>
+                  <th>停止时间</th>
+                  <th>房间号</th>
+                    <th>风速</th>
+                 <th>费率</th>
+                   <th>总费用</th>
+            </tr>
+            
+        </table>
+    </div>
+
+    <!--请求账单-->
+    <div class="right" id="createInvoicePage">
+        <div class="location">
+            <strong>你现在所在的位置是:</strong>
+            <span>请求账单</span>
+        </div>
+        <div class="providerAdd">
+            <form action="#">
+                <div class="">
+                    <label for="Invoice_roomID">房间号：</label>
+                    <input type="text" name="Invoice_roomID" id="Invoice_roomID" />
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="Invoice_starttime">起始时间：</label>
+                    <input type="text" name="Invoice_starttime" id="Invoice_starttime" />
+                    <span >*</span>
+                </div>
+                <div>
+                    <label for="Invoice_stoptime">结束时间：</label>
+                    <input type="text" name="Invoice_stoptime" id="Invoice_stoptime"/>
+                    <span>*</span>
+                </div>
+                <div class="providerAddBtn">
+                    <input type="button" value="请求" id="requstInvoice"/>
+                    <input type="reset" value="重置" id="resetInvoice"/>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--账单信息-->
+    <div class="right" id="InvoiceInformationPage">
+        <div class="location">
+            <strong>你现在所在的位置是:</strong>
+            <span>账单信息查看</span>
+        </div>
+        <div class="search">
+            <input type="button" value="打印"  onclick="method5('Billtable')"  id="printBill">
+        </div>
+        <table class="providerTable" cellpadding="0" cellspacing="0" id="Billtable">
+            <tr class="firstTr">
+                <th>帐单ID</th>
+                <th>开始时间</th>
+                 <th>停止时间</th>
+                 <th>房间号</th>
+                 <th>用户ID</th>
+                 <th>总费用</th>
+                 <th>运行时间</th>
+                  <th>空调调度次数</th>
+                   <th>详单请求次数</th>
+                   <th>空调启动次数</th>
+                   <th>温度调节次数</th>
+                   <th>风速调节次数</th>
+              
+            </tr>
+            <tr>
+                <td id="InvoiceInfo_ID"></td>
+                <td id="InvoiceInfo_starttime"></td>
+                <td id="InvoiceInfo_stoptime"></td>
+                <td id="InvoiceInfo_roomID"></td>
+                <td id="InvoiceInfo_userID"></td>
+                <td id="InvoiceInfo_roomTotalFee"></td>
+                <td id="InvoiceInfo_runningTime"></td>
+                <td id="InvoiceInfo_scheduleCounter"></td>
+                <td id="InvoiceInfo_detailedRecordCounter"></td>
+                <td id="InvoiceInfo_powerOnCounter"></td>
+                <td id="InvoiceInfo_changeTempCounter"></td>
+                <td id="InvoiceInfo_changeFanCounter"></td>
+            </tr>
+
+          =
+        </table>
+    </div>
+
+    <!--办理退房-->
+    <div class="right" id="checkOutPage">
+        <div class="checkOutReceptionist">
+            <div class="removerChid">
+                <h2>信息填写</h2>
+                <div class="removeMain" >
+                    <label for="checkOut_RoomID">输入房间号：</label>
+                    <input type="text" name="checkOut_RoomID" id="checkOut_RoomID" />
+                </div>
+                <div class="providerAddBtn">
+                    <input type="button" value="确定" id="saveCheckOutRoomID"/>
+                    <input type="button" value="取消" id="cancelCheckOutRoomID"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<footer class="footer">
+</footer>
+<script src="js/time.js"></script>
 </body>
 </html>

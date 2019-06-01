@@ -1,10 +1,166 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+<head lang="en">
     <meta charset="UTF-8">
-    <title>Welcome</title>
+    <title>顾客</title>
+    <link rel="stylesheet" href="../css/public.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/js.js"></script>
 </head>
 <body>
-<h1>Hello, user!</h1>
+<!--头部-->
+<header class="publicHeader">
+    <h1>顾客界面</h1>
+
+    <div class="publicHeaderR">
+        <p><span>您好！</span><span style="color: #fff21b">customer</span> , 欢迎您！</p>
+    </div>
+</header>
+<!--时间-->
+<section class="publicTime">
+    <span id="time">2015年1月1日 11:11  星期一</span>
+    <a href="#">温馨提示：为了能正常浏览，请使用高版本浏览器！（IE10+）</a>
+</section>
+
+
+<!--顾客功能初始化-->
+<section class="publicMian" id="customerFunctionInit">
+    <div class="left">
+        <h2 class="leftH2"><span class="span1"></span>功能列表 <span></span></h2>
+        <nav>
+        </nav>
+    </div>
+    <!--设置参数-->
+    <div class="right" id="customerSetInitTemp">
+        <div class="checkOutReceptionist">
+            <div class="removerChid">
+                <h2>房间初始温度设置</h2>
+                <div class="removeMain" >
+                    <label for="customerRoomInitTemp">房间初始温度</label>
+                    <input type="text" name="customerRoomInitTemp" id="customerRoomInitTemp" value="22" required />
+                </div>
+                <div class="providerAddBtn">
+                    <input type="button" value="确定" id="saveCustomerRoomInitTemp"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+<!--顾客功能-->
+<section class="publicMian" id="customerFunctionExe">
+    <div class="left">
+        <h2 class="leftH2"><span class="span1"></span>功能列表 <span></span></h2>
+        <nav>
+            <ul class="list">
+                <li><input type="button" id="customerRequestOn" value="打开空调"></li>
+                <li><input type="button" id="customerRequestOff" value="关闭空调"></li>
+                <li><input type="button" id="customerRequestRoomState" value="房间状态"></li>
+                <li><input type="button" id="customerRequestChangingTemperature" value="调节温度"></li>
+                <li><input type="button" id="customerRequestChangingFanSpeed" value="调节风速"></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="right" id="customerInit">
+        <img class="wColck" src="img/clock.jpg" alt=""/>
+        <div class="wFont">
+            <h2>Customer</h2>
+            <p><b>请选择要执行的功能!</b></p>
+        </div>
+    </div>
+
+    <!--房间状态信息-->
+    <div class="right" id="customerRoomStatePage">
+        <div class="location">
+            <strong>你现在所在的位置是:</strong>
+            <span>房间状态查看</span>
+        </div>
+        <table class="providerTable" cellpadding="0" cellspacing="0">
+            <tr class="firstTr">
+                <th>开机状态</th>
+                <td id="customerRoomPowerOn"></td>
+            </tr>
+            <tr>
+                <th>服务状态</th>
+                <td id="customerRoomServer"></td>
+            </tr>
+            <tr>
+                <th>当前室温</th>
+                <td id="customerRoomCurTemperature"></td>
+            </tr>
+            <tr>
+                <th>目标温度</th>
+                <td id="customerRoomTarTemperature"></td>
+            </tr>
+            <tr>
+                <th>风速</th>
+                <td id="customerRoomSpeed"></td>
+            </tr>
+            <tr>
+                <th>费率</th>
+                <td id="customerRoomFeeRate"></td>
+            </tr>
+            <tr>
+                <th>总费用</th>
+                <td id="customerRoomTotalFee"></td>
+            </tr>
+            <tr>
+                <th>已运行时间</th>
+                <td id="customerRoomRunningTime"></td>
+            </tr>
+        </table>
+    </div>
+
+    <!--调节温度-->
+    <div class="right" id="customerTemperaturePage">
+        <div class="addCustomer"></div>
+        <div class="remove" id="addCustomerTemp">
+            <div class="removerChid">
+                <h2>请选择温度</h2>
+                <div class="removeMain" >
+                    <input class="addBtn min" type="button" id="minTemp" value="-" />
+                    <input type="text" name="CustomerTemp" id="CustomerTemp" />
+                    <input class="addBtn add" type="button" id="addTemp" value="+" />
+                </div>
+                <div class="customerChangeBtn">
+                    <input type="button" value="确定" id="saveCustomerTemp"/>
+                    <input type="reset" value="取消" id="cancelCustomerTemp"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--调节风速-->
+    <div class="right" id="customerFanSpeedPage">
+        <div class="addCustomer"></div>
+        <div class="remove" id="addCustomerFSpeed">
+            <div class="removerChid">
+                <h2>当前风速</h2>
+                <div class="removeMain" >
+                    <label for="selectedFSpeed">风速选择:</label>
+                    <select id="selectedFSpeed">
+                        <option value ="LOW">Low</option>
+                        <option value ="MIDDLE">Middle</option>
+                        <option value="HIGH">High</option>
+                    </select>
+                </div>
+                <div class="customerChangeBtn">
+                    <input type="button" value="确定" id="saveCustomerFSpeed"/>
+                    <input type="reset" value="取消" id="cancelCustomerFSpeed"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<footer class="footer">
+</footer>
+
+<script src="../js/time.js"></script>
+
 </body>
 </html>

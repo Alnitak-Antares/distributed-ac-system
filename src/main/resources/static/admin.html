@@ -1,10 +1,189 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
     <meta charset="UTF-8">
-    <title>Welcome</title>
+    <title>管理员管理</title>
+    <link rel="stylesheet" href="css/public.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="js/js.js"></script>
 </head>
 <body>
-<h1>Hello, admin!</h1>
+<!--头部-->
+<header class="publicHeader">
+    <h1>管理员管理界面</h1>
+
+    <div class="publicHeaderR">
+        <p><span>您好！</span><span style="color: #fff21b">admin</span> , 欢迎您！</p>
+    </div>
+</header>
+<!--时间-->
+<section class="publicTime">
+    <span id="time">2015年1月1日 11:11  星期一</span>
+    <a href="#">温馨提示：为了能正常浏览，请使用高版本浏览器！（IE10+）</a>
+</section>
+
+<!--启动电源-->
+<section class="publicMian" id="powerOnSection">
+    <div class="left">
+        <h2 class="leftH2"><span class="span1"></span>功能列表 <span></span></h2>
+        <nav>
+            <ul class="list">
+                <li><input type="button" id="powerOn" value="启动空调"></li>
+                <li><span id="testid"></span></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="right">
+        <img class="wColck" src="img/clock.jpg" alt=""/>
+        <div class="wFont">
+            <h2>Admin</h2>
+            <p><b>请先启动空调系统!</b></p>
+        </div>
+    </div>
+</section>
+
+<!--设置参数和启动-->
+<section class="publicMian" id="saveParamsSection">
+    <div class="right">
+        <div class="location">
+            <strong>你现在所在的位置是:</strong>
+            <span>空调系统参数设置</span>
+        </div>
+        <div class="providerAdd">
+            <form action="#">
+                <div class="">
+                    <label for="isCooling">模式：</label>
+                    <select id="isCooling">
+                        <option value ="true">制冷</option>
+                        <option value ="">制热</option>
+                    </select>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="tempHighLimit">空调可设最高温度：</label>
+                    <input type="text" name="tempHighLimit" id="tempHighLimit" />
+                    <span >*</span>
+                </div>
+                <div>
+                    <label for="tempLowLimit">空调可设最低温度：</label>
+                    <input type="text" name="tempLowLimit" id="tempLowLimit"/>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="defaultTargetTemp">默认空调目标温度：</label>
+                    <input type="text" name="defaultTargetTemp" id="defaultTargetTemp"/>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="feeRateHigh">高风速使用费用率：</label>
+                    <input type="text" name="feeRateHigh" id="feeRateHigh"/>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="feeRateMiddle">中高风速使用费用率：</label>
+                    <input type="text" name="feeRateMiddle" id="feeRateMiddle"/>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="feeRateLow">低风速使用费用率：</label>
+                    <input type="text" name="feeRateLow" id="feeRateLow"/>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="defaultFanSpeed">默认风速：</label>
+                    <input type="text" name="defaultFanSpeed" id="defaultFanSpeed"/>
+                    <span>*</span>
+                </div>
+                <div class="providerAddBtn">
+                    <input type="button" value="保存" id="saveParams"/>
+                    <input type="button" value="启动" id="startAirSys">
+                    <input type="reset" value="重置" id="resetParams"/>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+<!--选择房间-->
+<section class="publicMian" id="roomSelectSection">
+    <div class="left">
+        <h2 class="leftH2"><span class="span1"></span>房间列表 <span></span></h2>
+        <nav>
+            <ul class="list">
+                <li><input type="button" id="room1" value="1号房间"></li>
+                <li><input type="button" id="room2" value="2号房间"></li>
+                <li><input type="button" id="room3" value="3号房间"></li>
+                <li><input type="button" id="room4" value="4号房间"></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="right" id="roomSelect">
+        <img class="wColck" src="img/clock.jpg" alt=""/>
+        <div class="wFont">
+            <h2>Admin</h2>
+            <p><b>请先选择房间号!</b></p>
+        </div>
+    </div>
+    <!--房间状态信息-->
+    <div class="right" id="roomState">
+        <div class="location">
+            <strong>你现在所在的位置是:</strong>
+            <span>房间状态查看</span>
+        </div>
+        <table class="providerTable" cellpadding="0" cellspacing="0">
+            <tr class="firstTr">
+                <th>房间号</th>
+                <td><span  id="monitorRoomID"></span></td>
+            </tr>
+            <tr class="firstTr">
+                <th>开机状态</th>
+                <td><span id="roomPowerOn"></span></td>
+            </tr>
+            <tr>
+                <th>服务状态</th>
+                <td><span id="roomServer"></span></td>
+            </tr>
+            <tr>
+                <th>当前室温</th>
+                <td><span id="roomCurTemperature"></span></td>
+            </tr>
+            <tr>
+                <th>目标温度</th>
+                <td><span id="roomTarTemperature"></span></td>
+            </tr>
+            <tr>
+                <th>风速</th>
+                <td><span id="roomSpeed"></span></td>
+            </tr>
+            <tr>
+                <th>费率</th>
+                <td><span id="roomFeeRate"></span></td>
+            </tr>
+            <tr>
+                <th>总费用</th>
+                <td><span id="roomTotalFee"></span></td>
+            </tr>
+            <tr>
+                <th>已运行时间</th>
+                <td><span id="roomRunningTime"></span></td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<footer class="footer">
+</footer>
+<script src="js/time.js"></script>
+<script>
+    document.getElementById("tempHighLimit").value=30;
+    document.getElementById("tempLowLimit").value=16;
+    document.getElementById("defaultTargetTemp").value=24;
+    document.getElementById("feeRateHigh").value=3;
+    document.getElementById("feeRateMiddle").value=2;
+    document.getElementById("feeRateLow").value=1;
+    document.getElementById("defaultFanSpeed").value="MIDDLE";
+</script>
 </body>
 </html>

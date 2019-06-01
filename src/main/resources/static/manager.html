@@ -1,10 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+<head lang="en">
     <meta charset="UTF-8">
-    <title>Welcome</title>
+    <title>经理</title>
+    <link rel="stylesheet" href="css/public.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="js/js.js"></script>
 </head>
 <body>
-<h1>Hello, manager!</h1>
+<!--头部-->
+<header class="publicHeader">
+    <h1>经理界面</h1>
+
+    <div class="publicHeaderR">
+        <p><span>您好！</span><span style="color: #fff21b">manager</span> , 欢迎您！</p>
+    </div>
+</header>
+<!--时间-->
+<section class="publicTime">
+    <span id="time">2015年1月1日 11:11  星期一</span>
+    <a href="#">温馨提示：为了能正常浏览，请使用高版本浏览器！（IE10+）</a>
+</section>
+
+<!--经理功能-->
+<section class="publicMian">
+    <div class="left">
+        <h2 class="leftH2"><span class="span1"></span>功能列表 <span></span></h2>
+        <nav>
+            <ul class="list">
+               <li><input type="button" id="queryReport" value="查看报表"></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="right" id="managerInit">
+        <img class="wColck" src="img/clock.jpg" alt=""/>
+        <div class="wFont">
+            <h2>Manager</h2>
+            <p><b>请选择要执行的功能!</b></p>
+        </div>
+    </div>
+
+    <!--请求报表-->
+    <div class="right" id="createReportPage">
+        <div class="location">
+            <strong>你现在所在的位置是:</strong>
+            <span>请求报表</span>
+        </div>
+        <div class="providerAdd">
+            <form action="#">
+                <div class="">
+                    <label for="Report_roomID1">房间号：</label>
+                    <input type="text" name="Report_roomID1" id="Report_roomID1" />
+                    <span>*</span>
+                </div>
+                <!--
+                <div>
+                    <label for="Report_type">报告类型：</label>
+                    <input type="text" name="Report_type" id="Report_type"/>
+                    <span>*</span>
+                </div>
+                -->
+                <div>
+                     <label for="Report_type">报告类型：</label>
+                     <select id="Report_type">
+                        <option value ="0">日报</option>
+                        <option value ="1">周报</option>
+                        <option value="2">年报</option>
+                    </select>
+                </div>
+                <div id="year_div">
+                    <label for="Report_year">年：</label>
+                    <input type="text" name="Report_year" id="Report_year"/>
+                    <span>*</span>
+                </div>
+                <div id="month_div">
+                    <label for="Report_month">月：</label>
+                    <input type="text" name="Report_month" id="Report_month"/>
+                    <span>*</span>
+                </div>
+                <div id="day_div">
+                    <label for="Report_day">日：</label>
+                    <input type="text" name="Report_day" id="Report_day"/>
+                    <span>*</span>
+                </div>
+                <div class="providerAddBtn">
+                    <input type="button" value="请求" id="requestReport"/>
+                    <input type="reset" value="重置" id="resetReport"/>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--报表信息-->
+    <div class="right" id="ReportInformationPage">
+        <div class="location">
+            <strong>你现在所在的位置是:</strong>
+            <span>报表信息查看</span>
+        </div>
+        <div class="search">
+            <input type="button" value="打印" onclick="method5('reporttables')"  id="printReport">
+        </div>
+        <table class="providerTable" cellpadding="0" cellspacing="0" id="reporttables">
+            <tr class="firstTr">
+                <th>房间号</th>
+                <th>总费用</th>
+                <th>运行时间</th>
+                <th>空调调度次数</th>
+                <th>详单请求次数</th>
+                <th>空调启动次数</th>
+                <th>温度调节次数</th>
+                <th>风速调节次数</th>
+            </tr>
+        
+        </table>
+    </div>
+
+</section>
+
+<footer class="footer">
+</footer>
+
+
+<script src="js/time.js"></script>
+
 </body>
 </html>
