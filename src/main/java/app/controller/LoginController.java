@@ -27,13 +27,13 @@ public class LoginController {
 
         if (nowUser!=null && nowUser.getPassword().equals(password)) {
 
-            if (username.equals("admin")) return "redirect:http://localhost:8080/adminView/";
-            if (username.equals("manager")) return "redirect:http://localhost:8080/managerView/";
-            if (username.equals("receptionist")) return "redirect:http://localhost:8080/receptionistView";
+            if (username.equals("admin")) return "redirect:http://localhost:8080/viewAdmin";
+            if (username.equals("manager")) return "redirect:http://localhost:8080/viewManager";
+            if (username.equals("receptionist")) return "redirect:http://localhost:8080/viewReceptionist";
 
             return "redirect:http://localhost:8080/userView/"+nowUser.getRoomid();
         }
-        return "redirect:http://localhost:8080/errorView";
+        return "redirect:http://localhost:8080/viewError";
     }
 
     @RequestMapping("/userView/{roomid}")
