@@ -188,9 +188,12 @@ public class AirConditionerService {
         if (!(roomList.get(roomId)).isPowerOn()) return "Error: It's powerOff.";
         roomList.get(roomId).clear();
         Service serv = findRoomService(roomId);
-        serviceDetailService.sumbitDetail(serv);
-        billService.addRunningService(billList.get(roomId),serv);
-       // billService.submitBill(billList.get(roomId));
+        if(serv != null) {
+            if (runningList.contains(serv)) {
+                serviceDetailService.sumbitDetail(serv);
+                billService.addRunningService(billList.get(roomId), serv);
+            }
+        }
 
         deleteRoomService(roomId);
         //roomList.get(roomId).clear();
